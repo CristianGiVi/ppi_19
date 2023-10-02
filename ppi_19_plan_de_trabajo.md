@@ -13,3 +13,11 @@ Informe 05 ( 30 de octubre)
 
 Desarrollar las funciones de búsqueda, filtrado y visualización de detalles de películas y perfiles de usuario (Implementación de Funcionalidades basicas del Usuario). (Cristian, David)
 Desarrollar el frontend de la app de acuerdo con el prototipo de diseño de la Interfaz de Usuario y realizar integración definitiva con las funcionalidades de la aplicación. (Alejandro, David)
+
+Informe 06 ( 20 de noviembre)
+
+Refinación de las características solicitadas de la aplicación y realización de pruebas exhaustivas para verificar el funcionamiento de la misma (Cristian, David, Alejandro)
+
+Informe 07 ( 27 de noviembre)
+
+Entrega DEFINITIVA
