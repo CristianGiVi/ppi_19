@@ -16,16 +16,16 @@ Realizar los endpoints para las APIs. (Alejandro)
 
 Informe 05 ( 30 de octubre)
 
-Analizar grandes cantidades de películas con sus respectivas descripciones, categorías, reseñas y calificaciones.
-Preprocesamiento de Datos. 
-Clasificación y creación de Perfiles de Usuario
-Cálculo de Similitud
-Generación de Recomendaciones
-Presentación de Resultados
-Verificacion de que no aparezcan peliculas ya vistas por el usuario
-
-Desarrollar las funciones de búsqueda, filtrado y visualización de detalles de películas y perfiles de usuario (Implementación de Funcionalidades basicas del Usuario). (Cristian, David)
-Desarrollar el frontend de la app de acuerdo con el prototipo de diseño de la Interfaz de Usuario y realizar integración definitiva con las funcionalidades de la aplicación. (Alejandro, David)
+Funcion de preprocesamiento de Datos.(David)
+Creacion de algoritmo para analizar grandes cantidades de películas con sus respectivas descripciones, categorías, reseñas y calificaciones.(David)
+Clasificación y creación de Perfiles de Usuario(David)
+Cálculo de Similitud(Alejandro)
+Verificacion de que no aparezcan peliculas ya vistas por el usuario(Cristian)
+Generación de Recomendaciones(Alejandro)
+Presentación de Resultados(Alejandro)
+Desarrollar las funciones de búsqueda y filtrado (Cristian)
+Visualización de detalles de películas y perfiles de usuario  (Cristian)
+Desarrollar el frontend de la app de acuerdo con el prototipo de diseño de la Interfaz de Usuario y realizar integración definitiva con las funcionalidades de la aplicación. (Alejandro, David, Cristian)
 
 Informe 06 ( 20 de noviembre)
 
