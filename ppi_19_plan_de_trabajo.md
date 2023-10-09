@@ -20,3 +20,6 @@
 | 16  | Desarrollar la visualizacion de la app y realizar integración definitiva con las funcionalidades de la aplicación.                                            |Alejandro, David, Cristian|05|
 | 17  | Refinación de las características solicitadas de la aplicación y realización de pruebas exhaustivas para verificar el funcionamiento de la misma              |Cristian, David, Alejandro|06|
 | 18  | Entrega definitiva                                                                                                                                            |Cristian, David, Alejandro|07|
+
+
+
