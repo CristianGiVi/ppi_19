@@ -1,6 +1,3 @@
-Informe 03 (Lunes 9 octubre)
-
-
 Diseñar el mockup de la Interfaz de Usuario teniendo en cuenta la experiencia del usuario para la navegación y la visualización de películas (UI/UX):
 
 - Pagina de inicio (Cristian)
@@ -38,3 +35,15 @@ Informe 07 ( 27 de noviembre)
 
 
 - Entrega DEFINITIVA
+
+
+# Plan de trabajo
+
+| #  | Funcionalidad                                                                                                                                                  | Encargado | Informe |
+|----|----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|---------|
+| 1  | Mockup de la pagina de inicio                                                                                                                                  |Cristian|03|
+| 2  | Mockup de la pagina de vista usuario                                                                                                                           |David|03|
+| 3  | Mockup de Pagina de vista de app                                                                                                                               |Alejandro|03|
+| 4  | Definir los frameworks del backend y fronted con los que se desarrollara la app                                                                                |Cristian, David, Alejandro|03|
+
+
