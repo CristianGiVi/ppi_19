@@ -47,7 +47,7 @@ df_IMDB  = df_IMDB .dropna(subset=['ReleaseYear'])
 
 
 #titulo - decoracion
-st.markdown("# Page 12 🎉")
+st.markdown("# Page 1 🎉")
 st.sidebar.markdown("# Page 1 🎉")
 st.write("---") 
 st.title("Que filtro deseas aplicar?")
