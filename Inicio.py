@@ -19,12 +19,9 @@
 #    st.session_state["my_input"] = my_input
 #    st.write("You have entered: ", my_input)
 
-import requests
+
 import streamlit as st
 import pandas as pd
-import numpy as np
-from streamlit_lottie import st_lottie
-from PIL import Image
 
 #Se obtienen las rutas de las bases de datos
 ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2NeukjCnMSMPRo4xRjf8Rl\
