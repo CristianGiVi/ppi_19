@@ -22,3 +22,7 @@ Correo: almunozo@unal.edu.co
 ## Link al despliegue
 
 Link al despliegue: https://moviematch1.streamlit.app/
+
+## Licencia:
+
+Licencia publica general de GNU(GPL) v3.0
