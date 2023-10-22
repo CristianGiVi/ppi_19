@@ -1,20 +1,14 @@
 import streamlit as st
 import pandas as pd
-import subprocess
 
-# Instala openpyxl si no está instalado
-try:
-    import openpyxl
-except ImportError:
-    subprocess.check_call(["pip", "install", "openpyxl"])
 
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Iniciar Sesión</h1>", unsafe_allow_html=True)
 
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
-    df_cuentas = pd.read_csv("cuentas.xlsx")
-except FileNotFoundError:
+    df_cuentas = pd.read_csv("cuentas.csv")
+except (FileNotFoundError,pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(columns=["Correo", "Contraseña"])
 
 # Creamos un formulario de inicio de sesión

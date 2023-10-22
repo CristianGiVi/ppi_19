@@ -82,5 +82,4 @@ with formulario_registro("Formulario de registro"):
         df_cuentas.to_csv("cuentas.csv", index=False)
 
         # Mostramos el DataFrame actualizado y un mensaje de éxito
-        st.write(df_cuentas)
         st.write("Usuario registrado con éxito")
