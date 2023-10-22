@@ -14,7 +14,7 @@ st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
-    df_cuentas = pd.read_csv("cuentas.xlsx")
+    df_cuentas = pd.read_excel("cuentas.xlsx")
 except FileNotFoundError:
     df_cuentas = pd.DataFrame(
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña"]
@@ -86,7 +86,7 @@ with formulario_registro("Formulario de registro"):
         df_cuentas = pd.concat([df_cuentas, nueva_cuenta], ignore_index=True)
 
         # Guardamos el DataFrame actualizado en un archivo CSV
-        df_cuentas.to_csv("cuentas.xlsx", index=False)
+        df_cuentas.to_excel("cuentas.xlsx", index=False)
 
         # Mostramos el DataFrame actualizado y un mensaje de éxito
         st.write(df_cuentas)
