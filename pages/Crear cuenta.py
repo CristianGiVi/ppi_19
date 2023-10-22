@@ -83,3 +83,4 @@ with formulario_registro("Formulario de registro"):
 
         # Mostramos el DataFrame actualizado y un mensaje de éxito
         st.write("Usuario registrado con éxito")
+        st.write(df_cuentas)
