@@ -79,7 +79,7 @@ with formulario_registro("Formulario de registro"):
         df_cuentas = pd.concat([df_cuentas, nueva_cuenta], ignore_index=True)
 
         # Guardamos el DataFrame actualizado en un archivo CSV
-        df_cuentas.to_excel("cuentas.csv", index=False)
+        df_cuentas.to_csv("cuentas.csv", index=False)
 
         # Mostramos el DataFrame actualizado y un mensaje de éxito
         st.write(df_cuentas)
