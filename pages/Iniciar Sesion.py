@@ -11,6 +11,7 @@ try:
 except (FileNotFoundError,pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(columns=["Correo", "Contraseña"])
 
+st.write(df_cuentas)
 # Creamos un formulario de inicio de sesión
 formulario_inicio_sesion = st.form
 with formulario_inicio_sesion("Formulario de inicio de sesión"):
