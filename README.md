@@ -26,3 +26,9 @@ Link al despliegue: https://moviematch1.streamlit.app/
 ## Licencia:
 
 Licencia publica general de GNU(GPL) v3.0
+
+## Librerias usadas en la app:
+
+Datetime
+Dtreamlit
+Pandas
