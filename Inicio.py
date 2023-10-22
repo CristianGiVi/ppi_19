@@ -2,9 +2,7 @@
 import datetime
 import streamlit as st
 import pandas as pd
-import subprocess
-subprocess.check_call(["pip", "install", "openpyxl"])
-import openpyxl
+
 
 # Se obtienen las rutas de la bases de datos
 ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2NeukjCnMSMPRo4xRjf8Rl\
