@@ -14,7 +14,7 @@ st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
-    df_cuentas = pd.read_excel("cuentas.xlsx")
+    df_cuentas = pd.read_excel("cuentas.xlsx",engine='openpyxl')
 except FileNotFoundError:
     df_cuentas = pd.DataFrame(
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña"]
