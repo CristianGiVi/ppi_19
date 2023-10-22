@@ -10,7 +10,7 @@ st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
     df_cuentas = pd.read_csv("cuentas.csv")
-except FileNotFoundError:
+except (FileNotFoundError, pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña"]
     )
