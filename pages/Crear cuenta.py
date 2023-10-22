@@ -2,12 +2,8 @@
 import streamlit as st
 import pandas as pd
 import subprocess
-
-# Instala openpyxl si no está instalado
-try:
-    import openpyxl
-except ImportError:
-    subprocess.check_call(["pip", "install", "openpyxl"])
+subprocess.check_call(["pip", "install", "openpyxl"])
+import openpyxl
 
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
