@@ -30,5 +30,5 @@ Licencia publica general de GNU(GPL) v3.0
 ## Librerias usadas en la app:
 
 Datetime
-Dtreamlit
+Streamlit
 Pandas
