@@ -1,10 +1,5 @@
 from translate import Translator
-import streamlit as st
 import requests
-import json
-
-import requests
-
 import streamlit as st
 import pandas as pd
 
@@ -184,7 +179,6 @@ if(mostrar_pelicula):
   #mostrarMosaico(url_lista,nombres_lista)
   translator = Translator(to_lang='es')
 
-  texto_a_traducir = "Hello, how are you?"
   for h in range(len(nombres_lista)):
        reseña_lista[h]=translator.translate(reseña_lista[h])
 
