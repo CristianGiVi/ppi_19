@@ -2,7 +2,6 @@
 import datetime
 import streamlit as st
 import pandas as pd
-from translate import Translator
 import requests
 
 def obtenerPoster(titulo):
@@ -459,12 +458,6 @@ if(mostrar_tabla):
        url_lista.append(url)
        reseña_lista.append(reseña)
        fecha_lista.append(fechas)
-  
-  #mostrarMosaico(url_lista,nombres_lista)
-  translator = Translator(to_lang='es')
-
-  for h in range(len(nombres_lista)):
-       reseña_lista[h]=translator.translate(reseña_lista[h])
 
   for i in range(len(nombres_lista)):
        mostrarTarjeta(
