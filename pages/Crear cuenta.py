@@ -12,7 +12,7 @@ except (FileNotFoundError, pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña"]
     )
-
+#st.write(df_cuentas)
 # Creamos un formulario de registro
 formulario_registro = st.form
 with formulario_registro("Formulario de registro"):
@@ -83,4 +83,4 @@ with formulario_registro("Formulario de registro"):
 
         # Mostramos el DataFrame actualizado y un mensaje de éxito
         st.write("Usuario registrado con éxito")
-        st.write(df_cuentas)
+        
