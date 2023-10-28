@@ -84,3 +84,66 @@ with formulario_registro("Formulario de registro"):
         # Mostramos el DataFrame actualizado y un mensaje de éxito
         st.write("Usuario registrado con éxito")
         
+# Texto de la política de tratamiento de datos personales
+politica_text = """
+# Política de Tratamiento de Datos Personales
+
+## 1. Introducción
+
+Esta Política de Tratamiento de Datos Personales describe cómo Moviematch recopila, utiliza, almacena y protege la información personal que proporcionas a través de nuestra aplicación. Esta Política se aplica a todos los usuarios de la Aplicación.
+
+## 2. Información Personal que Recopilamos
+
+Recopilamos información personal que tú proporcionas voluntariamente cuando utilizas la Aplicación. Esta información puede incluir, entre otros:
+
+- Nombre y apellidos.
+- Dirección de correo electrónico.
+- Preferencias de género para recomendaciones de películas.
+- Historial de visualización y calificaciones de películas.
+- Información de la cuenta, como nombre de usuario y contraseña.
+
+## 3. Uso de la Información Personal
+
+Utilizamos la información personal que recopilamos para los siguientes propósitos:
+
+- Proporcionar recomendaciones personalizadas de películas.
+- Mejorar la experiencia del usuario en la Aplicación.
+- Proteger la seguridad de la Aplicación y de nuestros usuarios.
+- Cumplir con las leyes y regulaciones aplicables.
+
+## 4. Consentimiento
+
+Al utilizar la Aplicación, aceptas y consientes el tratamiento de tu información personal de acuerdo con esta Política.
+
+## 5. Compartir Información Personal
+
+No compartimos tu información personal con terceros sin tu consentimiento, excepto en los siguientes casos:
+
+- Proveedores de servicios: Podemos compartir tu información con terceros que nos brindan servicios, como el alojamiento de datos, análisis y soporte técnico.
+- Cumplimiento legal: Podemos divulgar tu información personal si estamos obligados por ley o si creemos de buena fe que dicha divulgación es necesaria para cumplir con una obligación legal, proteger nuestros derechos, resolver disputas o garantizar la seguridad de nuestros usuarios.
+
+## 6. Seguridad de Datos
+
+Tomamos medidas razonables para proteger tu información personal contra pérdida, acceso no autorizado, divulgación, alteración o destrucción. Sin embargo, ten en cuenta que ninguna transmisión de datos en Internet o sistema de almacenamiento es completamente seguro.
+
+## 7. Derechos del Titular de los Datos
+
+Tienes derechos sobre tus datos personales, que incluyen:
+
+- Acceder a tus datos personales.
+- Corregir tus datos personales.
+
+## 8. Cambios en la Política
+
+Nos reservamos el derecho de actualizar o modificar esta Política en cualquier momento. Te notificaremos sobre los cambios a través de la Aplicación o por otros medios. El uso continuado de la Aplicación después de dichas modificaciones constituye tu aceptación de la Política revisada.
+
+## 9. Contacto
+
+Si tienes preguntas, inquietudes o solicitudes relacionadas con esta Política, contáctanos a través de dramirezla@unal.edu.co.
+
+Fecha de entrada en vigor: Octubre 28 del 2023
+"""
+
+# Mostrar la política de tratamiento de datos personales en Markdown
+with st.expander("Ver Política de Tratamiento de Datos Personales"):
+    st.markdown(politica_text)
