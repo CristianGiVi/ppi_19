@@ -449,15 +449,21 @@ nombres_peliculas = datos_filtrados.sort_values(by='IMDb-Rating', ascending=Fals
 mostrar_tabla = st.sidebar.checkbox("Mostrar Peliculas recomendadas")
 
 
+# Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
+try:
+    df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
+except (FileNotFoundError,pd.errors.EmptyDataError):
+    df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
 
-lista_favoritas = ["Jojo Rabbit", "The Godfather"]
+
+lista_favoritas = df_cuenta_actual["Peliculas Favoritas"].tolist()
 lista_favoritas.append("Once Upon a Time in the West")
 
+st.write(lista_favoritas)
 
 # Verifica si las películas favoritas están en la lista
 for pelicula in lista_favoritas:
     esta_presente = pelicula in nombres_peliculas.values
-    st.write(f"¿{pelicula} está presente en la lista de recomendadas? {esta_presente}")
 
 # Elimina las películas favoritas de la lista
 nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
