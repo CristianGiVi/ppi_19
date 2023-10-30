@@ -80,7 +80,7 @@ with formulario_registro("Formulario de registro"):
                 "Primer Nombre": [p_nombre],
                 "Primer Apellido": [p_apellido],
                 "Contraseña": [contra],
-                "Peliculas Favoritas": []
+                "Peliculas Favoritas": [lista]
             }
         )
         df_cuentas = pd.concat([df_cuentas, nueva_cuenta], ignore_index=True)
