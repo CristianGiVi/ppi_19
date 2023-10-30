@@ -18,7 +18,8 @@ except (FileNotFoundError, pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
     )
-st.write(df_cuenta_actual)
+
+
 # Creamos un formulario de registro
 formulario_registro = st.form
 with formulario_registro("Formulario de registro"):

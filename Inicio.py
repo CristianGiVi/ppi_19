@@ -493,6 +493,23 @@ if(mostrar_tabla):
               ano=fecha_lista[i]
               )
 
+   
+try:
+    df_cuentas = pd.read_csv("cuentas.csv")
+except (FileNotFoundError, pd.errors.EmptyDataError):
+    df_cuentas = pd.DataFrame(
+        columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
+    )
 
+# Verificamos si df_cuentas contiene el mismo correo que df_cuenta_actual
+if not df_cuenta_actual.empty:
+    
+    correo = df_cuenta_actual["Correo"].iloc[0] 
+    idx = df_cuentas[df_cuentas["Correo"] == correo].index
+    if not idx.empty:
+        df_cuentas.at[idx[0], "Peliculas Favoritas"] = ", ".join(lista_favoritas)
 
+df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
+df_cuentas.to_csv("cuentas.csv", index=False)
 
+st.write(df_cuentas)
