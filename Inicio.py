@@ -480,6 +480,29 @@ if(otros_filtros):
 nombres_peliculas = datos_filtrados.sort_values(by='IMDb-Rating', ascending=False)['Title']
 mostrar_tabla = st.sidebar.checkbox("Mostrar Peliculas recomendadas")
 
+# Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
+try:
+    df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
+except (FileNotFoundError,pd.errors.EmptyDataError):
+    df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
+
+
+lista_favoritas = df_cuenta_actual["Peliculas Favoritas"].tolist()
+lista_favoritas.append("Once Upon a Time in the West")
+
+st.write(lista_favoritas)
+
+# Verifica si las películas favoritas están en la lista
+for pelicula in lista_favoritas:
+    esta_presente = pelicula in nombres_peliculas.values
+
+# Elimina las películas favoritas de la lista
+nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
+
+
+# Agrega, pero hay que tener cuidado con los indices de peliculas que ya no estan, ej. the godfather
+#lista_favoritas.append(nombres_peliculas[2])
+
 # Si el checkbox está desmarcado, mostrar el mosaico de películas
 if not mostrar_tabla:
     st.title("Peliculas del momento:")
