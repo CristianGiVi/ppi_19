@@ -507,7 +507,8 @@ if not df_cuenta_actual.empty:
     correo = df_cuenta_actual["Correo"].iloc[0] 
     idx = df_cuentas[df_cuentas["Correo"] == correo].index
     if not idx.empty:
-        df_cuentas.at[idx[0], "Peliculas Favoritas"] = ", ".join(lista_favoritas)
+        # df_cuentas.at[idx[0], "Peliculas Favoritas"] = ", ".join(lista_favoritas)
+        df_cuentas.at[idx[0], "Peliculas Favoritas"] = lista_favoritas
 
 df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
 df_cuentas.to_csv("cuentas.csv", index=False)
