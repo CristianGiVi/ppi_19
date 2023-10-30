@@ -47,6 +47,8 @@ with formulario_inicio_sesion("Formulario de inicio de sesión"):
         nombre_usuario = df_cuentas.loc[
             df_cuentas["Correo"] == correo, "Primer Nombre"
         ].values[0]
+        
+        favoritas = df_cuentas.loc[df_cuentas["Correo"] == correo, "Peliculas Favoritas"].values[0]
 
         # Mostramos el nombre de usuario en la barra lateral
         with st.sidebar:
