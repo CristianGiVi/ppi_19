@@ -444,23 +444,28 @@ if(otros_filtros):
 # ------------------------------MOSTRAR RESULTADOS----------------------------------
 # ----------------------------------------------------------------------------------
 
-lista_peliculas_favoritas = pis.favoritas
-
-lista_peliculas_favoritas.append("Once Upon a Time in the West")
-
-for pelicula in lista_peliculas_favoritas:
-    esta_presente = pelicula in lista_peliculas_favoritas.values
-    st.write(f"¿{pelicula} está presente en la lista de recomendadas? {esta_presente}")
-
-nombres_peliculas = lista_peliculas_favoritas[~lista_peliculas_favoritas.isin(lista_peliculas_favoritas)]
-
-# Agrega, pero hay que tener cuidado con los indices de peliculas que ya no estan, ej. the godfather
-#lista_favoritas.append(nombres_peliculas[2])
-st.write(lista_peliculas_favoritas)
-
 
 nombres_peliculas = datos_filtrados.sort_values(by='IMDb-Rating', ascending=False)['Title']
 mostrar_tabla = st.sidebar.checkbox("Mostrar Peliculas recomendadas")
+
+
+
+lista_favoritas = ["Jojo Rabbit", "The Godfather"]
+lista_favoritas.append("Once Upon a Time in the West")
+
+
+# Verifica si las películas favoritas están en la lista
+for pelicula in lista_favoritas:
+    esta_presente = pelicula in nombres_peliculas.values
+    st.write(f"¿{pelicula} está presente en la lista de recomendadas? {esta_presente}")
+
+# Elimina las películas favoritas de la lista
+nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
+
+
+# Agrega, pero hay que tener cuidado con los indices de peliculas que ya no estan, ej. the godfather
+#lista_favoritas.append(nombres_peliculas[2])
+
 
 if(mostrar_tabla):
     nombres_lista = nombres_peliculas.tolist()
@@ -481,7 +486,6 @@ if(mostrar_tabla):
               descripcion=reseña_lista[i],
               ano=fecha_lista[i]
               )
-
 
 
 
