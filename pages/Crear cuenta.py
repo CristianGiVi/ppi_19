@@ -10,7 +10,7 @@ try:
     df_cuentas = pd.read_csv("cuentas.csv")
 except (FileNotFoundError, pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(
-        columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña"]
+        columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña","Peliculas Favoritas"]
     )
 #st.write(df_cuentas)
 # Creamos un formulario de registro
@@ -74,6 +74,7 @@ with formulario_registro("Formulario de registro"):
                 "Primer Nombre": [p_nombre],
                 "Primer Apellido": [p_apellido],
                 "Contraseña": [contra],
+                "Peliculas Favoritas": []
             }
         )
         df_cuentas = pd.concat([df_cuentas, nueva_cuenta], ignore_index=True)
