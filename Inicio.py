@@ -3,6 +3,7 @@ import datetime
 import streamlit as st
 import pandas as pd
 import requests
+import pages.Iniciar_Sesion as pis 
 
 def obtenerPoster(titulo):
         url = f"https://api.themoviedb.org/3/search/movie?query={titulo}&include_adult=false&language=en-US&page=1"
@@ -199,31 +200,31 @@ categorias_Sport = st.sidebar.selectbox('¿Te emocionan las películas relaciona
 otros_filtros = st.sidebar.checkbox('Seleccionar filtros')
 if otros_filtros:
 
-  #filtro por nombre
-  filtro_nombre = st.sidebar.text_input('¿Cual es el nombre de la pelicula que deseas ver?', \
-  placeholder="Escriba el nombre de la pelicula")
+    #filtro por nombre
+    filtro_nombre = st.sidebar.text_input('¿Cual es el nombre de la pelicula que deseas ver?', \
+    placeholder="Escriba el nombre de la pelicula")
 
-  #filtro por rating
+    #filtro por rating
 
   # Se obtiene una lista de todos los rating que hay se ordenan de forma descendente
-  rating_unicos = df_IMDB['IMDb-Rating'].drop_duplicates()
-  rating_unicos = sorted(rating_unicos)
+    rating_unicos = df_IMDB['IMDb-Rating'].drop_duplicates()
+    rating_unicos = sorted(rating_unicos)
 
-  filtro_rating =  st.sidebar.slider('¿Indica el intervalo del rating para las películas que eliges ver?', \
-  min_value=rating_unicos[0], max_value=rating_unicos[-1], \
-  value=(rating_unicos[0], rating_unicos[-1]))
+    filtro_rating =  st.sidebar.slider('¿Indica el intervalo del rating para las películas que eliges ver?', \
+    min_value=rating_unicos[0], max_value=rating_unicos[-1], \
+    value=(rating_unicos[0], rating_unicos[-1]))
 
   #filtro por aÑos
-  año_seleccionado = st.sidebar.selectbox('¿Prefieres ver películas que sean: \n \
-  Recientes (lanzadas en los últimos 5 años) \n \
-  Moderadamente antiguas (lanzadas hace 5-20 años) \n \
-  Clásicas (lanzadas hace más de 20 años)', ('Recientes', 'Moderadamente antiguas', \
-  'Clásicas'), index=None, placeholder="Seleccione una opcion") 
+    año_seleccionado = st.sidebar.selectbox('¿Prefieres ver películas que sean: \n \
+    Recientes (lanzadas en los últimos 5 años) \n \
+    Moderadamente antiguas (lanzadas hace 5-20 años) \n \
+    Clásicas (lanzadas hace más de 20 años)', ('Recientes', 'Moderadamente antiguas', \
+    'Clásicas'), index=None, placeholder="Seleccione una opcion") 
 
-  #por duracion
-  duracion_seleccionada = st.sidebar.selectbox('¿Cuál es tu preferencia en cuanto a la \
-  duración de las películas que te gusta ver? Elige una de las siguientes opciones:', \
-  ('Larga', 'Media', 'Corta'), index=None, placeholder="Seleccione una opcion")
+    #por duracion
+    duracion_seleccionada = st.sidebar.selectbox('¿Cuál es tu preferencia en cuanto a la \
+    duración de las películas que te gusta ver? Elige una de las siguientes opciones:', \
+    ('Larga', 'Media', 'Corta'), index=None, placeholder="Seleccione una opcion")
 
 
 # ----------------------------------------------------------------------------------
@@ -274,70 +275,70 @@ dataframe_conc = None
 
 #Action-Adventure
 if(categorias_Action_Adventure):
-  if(categorias_Action_Adventure == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Adventure], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, Action], ignore_index=True).drop_duplicates()
+    if(categorias_Action_Adventure == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Adventure], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, Action], ignore_index=True).drop_duplicates()
 
 #Family
 if(categorias_Comedy_Family):
-  if(categorias_Comedy_Family == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Comedy], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, Family], ignore_index=True).drop_duplicates()
+    if(categorias_Comedy_Family == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Comedy], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, Family], ignore_index=True).drop_duplicates()
 
 
 #Crime-Horror-Thriller-Mystery
 if(categorias_Crime_Horror_Thriller_Mystery):
-  if(categorias_Crime_Horror_Thriller_Mystery == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Mystery], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, Thriller], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, Horror], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, Crime], ignore_index=True).drop_duplicates()
+    if(categorias_Crime_Horror_Thriller_Mystery == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Mystery], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, Thriller], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, Horror], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, Crime], ignore_index=True).drop_duplicates()
 
 #Scifi-Fantasy
 if(categorias_SciFi_Fantasy):
-  if(categorias_SciFi_Fantasy == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Fantasy], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, SciFi], ignore_index=True).drop_duplicates()
+    if(categorias_SciFi_Fantasy == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Fantasy], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, SciFi], ignore_index=True).drop_duplicates()
 
 
 #Drama-Romance
 if(categorias_Drama_Romance):
-  if(categorias_Drama_Romance == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Romance], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, Drama], ignore_index=True).drop_duplicates()
+    if(categorias_Drama_Romance == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Romance], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, Drama], ignore_index=True).drop_duplicates()
 
 #Animation
 if(categorias_Animation):
-  if(categorias_Animation == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Animation], ignore_index=True).drop_duplicates()
+    if(categorias_Animation == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Animation], ignore_index=True).drop_duplicates()
 
 
 #Biography_War_History_Film-Noir
 if(categorias_Biography_War_History_FilmNoir):
-  if(categorias_Biography_War_History_FilmNoir == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, FilmNoir], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, History], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, War], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, Biography], ignore_index=True).drop_duplicates()
+    if(categorias_Biography_War_History_FilmNoir == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, FilmNoir], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, History], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, War], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, Biography], ignore_index=True).drop_duplicates()
 
 
 #Music-Musical
 if(categorias_Music_Musical):
-  if(categorias_Music_Musical == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Musical], ignore_index=True).drop_duplicates()
-    dataframe_conc = pd.concat([dataframe_conc, Music], ignore_index=True).drop_duplicates()
+    if(categorias_Music_Musical == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Musical], ignore_index=True).drop_duplicates()
+      dataframe_conc = pd.concat([dataframe_conc, Music], ignore_index=True).drop_duplicates()
 
 
 #Western
 if(categorias_Western):
-  if(categorias_Western == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Western], ignore_index=True).drop_duplicates()
+    if(categorias_Western == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Western], ignore_index=True).drop_duplicates()
 
 
 #Sport
 if(categorias_Sport):
-  if(categorias_Sport == 'Si'):
-    dataframe_conc = pd.concat([dataframe_conc, Sport], ignore_index=True).drop_duplicates()
+    if(categorias_Sport == 'Si'):
+      dataframe_conc = pd.concat([dataframe_conc, Sport], ignore_index=True).drop_duplicates()
 
 
 # ----------------------------------------------------------------------------------
@@ -346,7 +347,7 @@ if(categorias_Sport):
 # dataframe almacenara los valores del dataset original
 
 if(dataframe_conc is None):
-  dataframe_conc = df_IMDB.copy()
+    dataframe_conc = df_IMDB.copy()
 
 
 # ----------------------------------------------------------------------------------
@@ -357,60 +358,60 @@ if(dataframe_conc is None):
 
 
 if(dataframe_conc is not None):
-  if(categorias_Action_Adventure == 'No'):
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Action')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Adventure')]
+    if(categorias_Action_Adventure == 'No'):
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Action')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Adventure')]
 
 
-  #Comedy, Family
-  if(categorias_Comedy_Family == 'No'):
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Family')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Comedy')]
+    #Comedy, Family
+    if(categorias_Comedy_Family == 'No'):
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Family')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Comedy')]
 
 
-  #Crime, Horror, Thriller, Mystery
-  if(categorias_Crime_Horror_Thriller_Mystery == 'No'):  
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Mystery')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Thriller')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Horror')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Crime')]
+    #Crime, Horror, Thriller, Mystery
+    if(categorias_Crime_Horror_Thriller_Mystery == 'No'):  
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Mystery')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Thriller')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Horror')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Crime')]
 
 
-  #Scifi, Fantasy
-  if(categorias_SciFi_Fantasy == 'No'):
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Fantasy')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Sci-Fi')]
+    #Scifi, Fantasy
+    if(categorias_SciFi_Fantasy == 'No'):
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Fantasy')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Sci-Fi')]
 
-  #Drama-Romance
-  if(categorias_Drama_Romance == 'No'):
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Romance')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Drama')]
+    #Drama-Romance
+    if(categorias_Drama_Romance == 'No'):
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Romance')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Drama')]
 
-  #Animation
-  if(categorias_Animation == 'No'):
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Animation')]
-
-
-  #Biography_War_History_Film-Noir
-  if(categorias_Biography_War_History_FilmNoir == 'No'):
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Film-Noir')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('History')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('War')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Biography')]
+    #Animation
+    if(categorias_Animation == 'No'):
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Animation')]
 
 
-  #Music-Musical
-  if(categorias_Music_Musical == 'No'):
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Musical')]
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Music')]
+    #Biography_War_History_Film-Noir
+    if(categorias_Biography_War_History_FilmNoir == 'No'):
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Film-Noir')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('History')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('War')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Biography')]
 
-  #Western
-  if(categorias_Western == 'No'):
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Western')]
 
-  #Sport
-  if(categorias_Sport == 'No'): 
-    dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Sport')]
+    #Music-Musical
+    if(categorias_Music_Musical == 'No'):
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Musical')]
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Music')]
+
+    #Western
+    if(categorias_Western == 'No'):
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Western')]
+
+    #Sport
+    if(categorias_Sport == 'No'): 
+      dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Sport')]
 
 
 
@@ -422,9 +423,9 @@ if(dataframe_conc is not None):
 # al menos un filtro, la variable obtendra los valores de la variable dataframe_conc
 
 if(dataframe_conc is None):
-  datos_filtrados = df_IMDB.copy()
+    datos_filtrados = df_IMDB.copy()
 else:
-   datos_filtrados = dataframe_conc
+    datos_filtrados = dataframe_conc
 
 # ----------------------------------------------------------------------------------
 
@@ -440,33 +441,33 @@ else:
 #Si se decidio aplicar filtros extras, se realizaran las siguientes acciones:
 
 if(otros_filtros):
-  #filtro nombre
-  if(filtro_nombre):
-    datos_filtrados = datos_filtrados[datos_filtrados['Title'].str.contains(filtro_nombre)]
+    #filtro nombre
+    if(filtro_nombre):
+        datos_filtrados = datos_filtrados[datos_filtrados['Title'].str.contains(filtro_nombre)]
 
-  #filtro rating
-  if(filtro_rating):
-      datos_filtrados = datos_filtrados[(datos_filtrados['IMDb-Rating'] >= filtro_rating[0]) & (datos_filtrados['IMDb-Rating'] <= filtro_rating[1])]
+    #filtro rating
+    if(filtro_rating):
+        datos_filtrados = datos_filtrados[(datos_filtrados['IMDb-Rating'] >= filtro_rating[0]) & (datos_filtrados['IMDb-Rating'] <= filtro_rating[1])]
 
 
-  #filtro años
-  if(año_seleccionado):
-      año_actual = datetime.date.today().year
-      if(año_seleccionado == 'Recientes'):
-        datos_filtrados = datos_filtrados.loc[(datos_filtrados['ReleaseYear'] >= (año_actual - 5))]
-      elif(año_seleccionado == 'Moderadamente antiguas'):
-        datos_filtrados = datos_filtrados.loc[(datos_filtrados['ReleaseYear'] < (año_actual - 5) and datos_filtrados['ReleaseYear'] > (año_actual - 20))]
-      elif(año_seleccionado == 'Clásicas'):
-        datos_filtrados = datos_filtrados.loc[(datos_filtrados['ReleaseYear'] <= (año_actual - 20))]
+    #filtro años
+    if(año_seleccionado):
+        año_actual = datetime.date.today().year
+        if(año_seleccionado == 'Recientes'):
+            datos_filtrados = datos_filtrados.loc[(datos_filtrados['ReleaseYear'] >= (año_actual - 5))]
+        elif(año_seleccionado == 'Moderadamente antiguas'):
+            datos_filtrados = datos_filtrados.loc[(datos_filtrados['ReleaseYear'] < (año_actual - 5) and datos_filtrados['ReleaseYear'] > (año_actual - 20))]
+        elif(año_seleccionado == 'Clásicas'):
+            datos_filtrados = datos_filtrados.loc[(datos_filtrados['ReleaseYear'] <= (año_actual - 20))]
 
-  #Duracion
-  if duracion_seleccionada:
-      if duracion_seleccionada == 'Larga':
-          datos_filtrados = datos_filtrados.loc[datos_filtrados['Duration'] >= 150]
-      elif duracion_seleccionada == 'Media':
-          datos_filtrados = datos_filtrados.loc[(datos_filtrados['Duration'] < 150) & (datos_filtrados['Duration'] > 90)]
-      elif duracion_seleccionada == 'Corta':
-          datos_filtrados = datos_filtrados.loc[datos_filtrados['Duration'] <= 90]
+    #Duracion
+    if duracion_seleccionada:
+        if duracion_seleccionada == 'Larga':
+            datos_filtrados = datos_filtrados.loc[datos_filtrados['Duration'] >= 150]
+        elif duracion_seleccionada == 'Media':
+            datos_filtrados = datos_filtrados.loc[(datos_filtrados['Duration'] < 150) & (datos_filtrados['Duration'] > 90)]
+        elif duracion_seleccionada == 'Corta':
+            datos_filtrados = datos_filtrados.loc[datos_filtrados['Duration'] <= 90]
 
 
 
@@ -521,8 +522,27 @@ if(mostrar_tabla):
             descripcion=reseña_lista[i],
             fecha=fecha_lista[i]
             )
+    
 
+   
+try:
+    df_cuentas = pd.read_csv("cuentas.csv")
+except (FileNotFoundError, pd.errors.EmptyDataError):
+    df_cuentas = pd.DataFrame(
+        columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
+    )
 
+# Verificamos si df_cuentas contiene el mismo correo que df_cuenta_actual
+if not df_cuenta_actual.empty:
+    
+    correo = df_cuenta_actual["Correo"].iloc[0] 
+    idx = df_cuentas[df_cuentas["Correo"] == correo].index
+    if not idx.empty:
+        df_cuentas.at[idx[0], "Peliculas Favoritas"] = lista_favoritas
+        
+        
+df_vacio = pd.DataFrame()
+df_vacio.to_csv("cuenta_actual.csv", index=False)
+df_cuentas.to_csv("cuentas.csv", index=False)
 
-
-
+st.write(df_cuentas)

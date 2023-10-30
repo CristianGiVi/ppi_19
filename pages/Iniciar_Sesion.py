@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Iniciar Sesión</h1>", unsafe_allow_html=True)
 
@@ -10,6 +9,11 @@ try:
     df_cuentas = pd.read_csv("cuentas.csv")
 except (FileNotFoundError,pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(columns=["Correo", "Contraseña"])
+
+try:
+    df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
+except (FileNotFoundError,pd.errors.EmptyDataError):
+    df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre","Peliculas Favoritas"])
 
 #st.write(df_cuentas)
 # Creamos un formulario de inicio de sesión
@@ -47,6 +51,20 @@ with formulario_inicio_sesion("Formulario de inicio de sesión"):
         nombre_usuario = df_cuentas.loc[
             df_cuentas["Correo"] == correo, "Primer Nombre"
         ].values[0]
+        
+        favoritas = df_cuentas.loc[df_cuentas["Correo"] == correo, "Peliculas Favoritas"].values[0]
+        nueva_cuenta = pd.DataFrame(
+            {
+                "Correo": [correo],
+                "Contraseña": [contra],
+                "Nombre": [nombre_usuario],
+                "Peliculas Favoritas": [favoritas]
+            }
+        )
+        df_cuenta_actual = pd.concat([df_cuenta_actual, nueva_cuenta], ignore_index=True)
+
+        # Guardamos el DataFrame actualizado en un archivo CSV
+        df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
 
         # Mostramos el nombre de usuario en la barra lateral
         with st.sidebar:
