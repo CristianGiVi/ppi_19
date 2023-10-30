@@ -7,12 +7,17 @@ st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
+    df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
+except (FileNotFoundError,pd.errors.EmptyDataError):
+    df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre","Peliculas Favoritas"])
+    
+try:
     df_cuentas = pd.read_csv("cuentas.csv")
 except (FileNotFoundError, pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña","Peliculas Favoritas"]
     )
-#st.write(df_cuentas)
+st.write(df_cuenta_actual)
 # Creamos un formulario de registro
 formulario_registro = st.form
 with formulario_registro("Formulario de registro"):
