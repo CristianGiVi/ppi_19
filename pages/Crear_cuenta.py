@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 
+lista=[]
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 
@@ -9,13 +10,13 @@ st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 try:
     df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
 except (FileNotFoundError,pd.errors.EmptyDataError):
-    df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre","Peliculas Favoritas"])
+    df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
     
 try:
     df_cuentas = pd.read_csv("cuentas.csv")
 except (FileNotFoundError, pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(
-        columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña","Peliculas Favoritas"]
+        columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
     )
 st.write(df_cuenta_actual)
 # Creamos un formulario de registro
