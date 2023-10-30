@@ -20,13 +20,14 @@ def obtenerPoster(titulo):
         primeros_poster_paths = [result["poster_path"] for result in data["results"][:1]]
         descripcion=[result["overview"] for result in data["results"][:1]]
         fecha=[result["release_date"] for result in data ["results"][:1]]
+        nombre=[result["original_title"] for result in data["results"][:1]]
 
         url_pagina="https://image.tmdb.org/t/p/w500"
 
         for i in range(len(primeros_poster_paths)):
                primeros_poster_paths[i] = url_pagina+primeros_poster_paths[i]
 
-        return primeros_poster_paths[0],descripcion[0],fecha[0]
+        return primeros_poster_paths[0],descripcion[0],fecha[0],nombre[0]
 
 def mostrarMosaico(listaurl,listanombre):
      count = 0
@@ -52,18 +53,23 @@ def mostrarMosaico(listaurl,listanombre):
             row_html += "</tr></table>"
             st.write(row_html, unsafe_allow_html=True)
 
-def mostrarTarjeta(titulo,ano,descripcion,urlposter):
-    print(titulo)
+def mostrarTarjeta(titulo,urlposter,descripcion,fecha):
     st.write(f"""
     <div style ='max-width: 650px; background-color: #E5E5E5; border-radius: 5px; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 43vh; margin: 20px 20px'>
         <div style='flex: 1; padding: 20px'>
             <h3 >{titulo}</h2>
-            <p style='font-size: smaller;'> Fecha de lanzamiento: {ano}</p>
-            <p style='font-size: smaller;'>{descripcion}</p>
+            <p style='font-size: smaller;'> Fecha de lanzamiento: {fecha} </p>
+            <p style='font-size: smaller;'> {descripcion} </p>
         </div>
         <img src="{urlposter}" alt="Poster de la película" style='max-width: 200px; height: 43vh; display: block'>
     </div>
     """, unsafe_allow_html=True)
+
+
+import pandas as pd
+
+
+
 
 
 
@@ -72,7 +78,31 @@ ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2NeukjCnMSMPRo4xRjf8R
 KZt6z-EjrNEaBcLEd3JPia27Cf_m1KXFZdxN-bbwwhS-PRaE6jlRR4u/pub?gid=2030210596&sing\
 le=true&output=csv'
 
+ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSpteEzSNw3hy_2QEuKhglffsaazhLorNS-3b0_vUCb7WqeQIMtItwCweEAViVBDevykic5z2gmAXiP/pub?gid=2010989084&single=true&output=csv'
+
+df_IMDB2 = pd.read_csv(ruta2)
 df_IMDB = pd.read_csv(ruta1)
+
+def obtener_url_poster(titulo):
+    fila = df_IMDB2[df_IMDB2['Title'] == titulo]
+    if not fila.empty:
+        return fila['url_poster'].values[0]
+    else:
+        return None
+
+def obtener_descripcion(titulo):
+    fila = df_IMDB2[df_IMDB2['Title'] == titulo]
+    if not fila.empty:
+        return fila['descripcion'].values[0]
+    else:
+        return None
+    
+def obtener_fecha(titulo):
+    fila = df_IMDB2[df_IMDB2['Title'] == titulo]
+    if not fila.empty:
+        return fila['fecha'].values[0]
+    else:
+        return None
 
 # ----------------------------------------------------------------------------------
 
@@ -98,7 +128,9 @@ df_IMDB['Category'] = df_IMDB['Category'].astype(str)
 st.markdown("# 🎉 Bienvenido a MovieMatch 🎉")
 st.sidebar.markdown("# 🎉 MovieMatch 🎉")
 st.write("---") 
-st.title("Peliculas recomendadas:")
+
+   
+
 
 # Sidebar 
 st.sidebar.header('Por favor, responde a nuestras preguntas para que podamos recomendarte \
@@ -447,6 +479,26 @@ if(otros_filtros):
 nombres_peliculas = datos_filtrados.sort_values(by='IMDb-Rating', ascending=False)['Title']
 mostrar_tabla = st.sidebar.checkbox("Mostrar Peliculas recomendadas")
 
+# Si el checkbox está desmarcado, mostrar el mosaico de películas
+if not mostrar_tabla:
+    st.title("Peliculas del momento:")
+    # Mostrar la primera columna y las 20 primeras filas
+    subset_df = df_IMDB.iloc[:20, :1]
+
+    # Convertir los datos a una lista
+    lista_datos = subset_df.values.tolist()
+
+    url_recomendadas=[]
+    nombre_inicio=[]
+
+    for i in range(20):
+        url,descripcion,fecha,nombre=obtenerPoster(lista_datos[i])
+        url_recomendadas.append(url)
+        nombre_inicio.append(nombre)
+
+    mostrarMosaico(url_recomendadas, nombre_inicio)
+
+
 if(mostrar_tabla):
   nombres_lista = nombres_peliculas.tolist()
   url_lista=[]
@@ -454,17 +506,20 @@ if(mostrar_tabla):
   fecha_lista=[]
 
   for j in range(len(nombres_lista)):
-       url,reseña,fechas=obtenerPoster(nombres_lista[j])
-       url_lista.append(url)
-       reseña_lista.append(reseña)
-       fecha_lista.append(fechas)
+       urldf=obtener_url_poster(nombres_lista[j])
+       url_lista.append(urldf)
+       descripciondf=obtener_descripcion(nombres_lista[j])
+       reseña_lista.append(descripciondf)
+       fechadf=obtener_fecha(nombres_lista[j])
+       fecha_lista.append(fechadf)
+
 
   for i in range(len(nombres_lista)):
        mostrarTarjeta(
             titulo=nombres_lista[i],
             urlposter=url_lista[i],
             descripcion=reseña_lista[i],
-            ano=fecha_lista[i]
+            fecha=fecha_lista[i]
             )
 
 
