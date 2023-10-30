@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-
+if "shared" not in st.session_state:
+   st.session_state["shared"] = True
 
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Iniciar Sesión</h1>", unsafe_allow_html=True)

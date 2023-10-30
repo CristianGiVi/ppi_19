@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 
+st.write(st.session_state["shared"])
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 
