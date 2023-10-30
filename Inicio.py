@@ -1,14 +1,9 @@
-# Importar librerías de Python estándar
+# Importar librerias
 import datetime
-import requests
-
-# Importar librerías de terceros
-import pandas as pd
 import streamlit as st
-
-# Importar tus propios módulos
-import pages.Iniciar_Sesion as pis
-
+import pandas as pd
+import requests
+import pages.Iniciar_Sesion as pis 
 
 def obtenerPoster(titulo):
         url = f"https://api.themoviedb.org/3/search/movie?query={titulo}&include_adult=false&language=en-US&page=1"
@@ -34,7 +29,6 @@ def obtenerPoster(titulo):
 
         return primeros_poster_paths[0],descripcion[0],fecha[0]
 
-
 def mostrarMosaico(listaurl,listanombre):
      count = 0
      # Inicializa la fila HTML
@@ -59,7 +53,6 @@ def mostrarMosaico(listaurl,listanombre):
             row_html += "</tr></table>"
             st.write(row_html, unsafe_allow_html=True)
 
-
 def mostrarTarjeta(titulo,ano,descripcion,urlposter):
     print(titulo)
     st.write(f"""
@@ -72,6 +65,7 @@ def mostrarTarjeta(titulo,ano,descripcion,urlposter):
         <img src="{urlposter}" alt="Poster de la película" style='max-width: 200px; height: 43vh; display: block'>
     </div>
     """, unsafe_allow_html=True)
+
 
 
 # Se obtienen las rutas de la bases de datos
@@ -105,7 +99,7 @@ df_IMDB['Category'] = df_IMDB['Category'].astype(str)
 st.markdown("# 🎉 Bienvenido a MovieMatch 🎉")
 st.sidebar.markdown("# 🎉 MovieMatch 🎉")
 st.write("---") 
-#st.title("Peliculas recomendadas:")
+st.title("Peliculas recomendadas:")
 
 # Sidebar 
 st.sidebar.header('Por favor, responde a nuestras preguntas para que podamos recomendarte \
@@ -465,6 +459,8 @@ except (FileNotFoundError,pd.errors.EmptyDataError):
 lista_favoritas = df_cuenta_actual["Peliculas Favoritas"].tolist()
 lista_favoritas.append("Once Upon a Time in the West")
 
+st.write(lista_favoritas)
+
 # Verifica si las películas favoritas están en la lista
 for pelicula in lista_favoritas:
     esta_presente = pelicula in nombres_peliculas.values
@@ -516,3 +512,5 @@ if not df_cuenta_actual.empty:
 
 df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
 df_cuentas.to_csv("cuentas.csv", index=False)
+
+st.write(df_cuentas)
