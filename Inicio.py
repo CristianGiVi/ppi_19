@@ -1,9 +1,13 @@
-# Importar librerias
+# Importar librerías de Python estándar
 import datetime
-import streamlit as st
-import pandas as pd
 import requests
-import pages.Iniciar_Sesion as pis 
+
+# Importar librerías de terceros
+import pandas as pd
+import streamlit as st
+
+# Importar tus propios módulos 
+import pages.Iniciar_Sesion as pis
 
 def obtenerPoster(titulo):
         url = f"https://api.themoviedb.org/3/search/movie?query={titulo}&include_adult=false&language=en-US&page=1"
