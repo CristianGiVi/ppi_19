@@ -9,31 +9,6 @@ import streamlit as st
 # Importar tus propios módulos 
 import pages.Iniciar_Sesion as pis
 
-def obtenerPoster(titulo):
-        url = f"https://api.themoviedb.org/3/search/movie?query={titulo}&include_adult=false&language=en-US&page=1"
-
-        headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Nzk3Mjg3MDFkYzExNTRkYWUxOTI4NGU5ZDU3MzhiMyIsInN1YiI6IjY0ZjY4NmIyYWM0MTYxMDBjNDk3YmVkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dKaSrYw9ra42qlml0rZvtZGL9mQ0OO_IjDLXUOrgjBE"
-        }
-
-        response = requests.get(url, headers=headers)
-
-        if response.status_code == 200:
-             data = response.json()
-        
-        primeros_poster_paths = [result["poster_path"] for result in data["results"][:1]]
-        descripcion=[result["overview"] for result in data["results"][:1]]
-        fecha=[result["release_date"] for result in data ["results"][:1]]
-        nombre=[result["original_title"] for result in data["results"][:1]]
-
-        url_pagina="https://image.tmdb.org/t/p/w500"
-
-        for i in range(len(primeros_poster_paths)):
-               primeros_poster_paths[i] = url_pagina+primeros_poster_paths[i]
-
-        return primeros_poster_paths[0],descripcion[0],fecha[0],nombre[0]
-
 def mostrarMosaico(listaurl,listanombre):
      count = 0
      # Inicializa la fila HTML
@@ -472,18 +447,23 @@ nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 if not mostrar_tabla:
     st.title("Peliculas del momento:")
     # Mostrar la primera columna y las 20 primeras filas
-    subset_df = df_IMDB.iloc[:20, :1]
+    subset_df = df_IMDB2.iloc[:20, :1]
 
     # Convertir los datos a una lista
     lista_datos = subset_df.values.tolist()
 
+    # Lista con solo los strings
+    nueva_lista = [elemento[0] for elemento in lista_datos]
+
     url_recomendadas=[]
     nombre_inicio=[]
 
+
     for i in range(20):
-        url,descripcion,fecha,nombre=obtenerPoster(lista_datos[i])
-        url_recomendadas.append(url)
-        nombre_inicio.append(nombre)
+       urldf=obtener_url_poster(nueva_lista[i])
+       url_recomendadas.append(urldf)
+       nombre_inicio.append(nueva_lista[i])
+       
 
     mostrarMosaico(url_recomendadas, nombre_inicio)
 
