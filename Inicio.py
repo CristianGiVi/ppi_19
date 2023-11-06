@@ -83,7 +83,7 @@ ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2NeukjCnMSMPRo4xRjf8R
 KZt6z-EjrNEaBcLEd3JPia27Cf_m1KXFZdxN-bbwwhS-PRaE6jlRR4u/pub?gid=2030210596&sing\
 le=true&output=csv'
 
-ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSpteEzSNw3hy_2QEuKhglffsaazhLorNS-3b0_vUCb7WqeQIMtItwCweEAViVBDevykic5z2gmAXiP/pub?gid=2010989084&single=true&output=csv'
+ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPPzH9PXbY0LrUs7vtz_Z08ZPNfI9yk9iyP3HFLkoNj2vtEWZ1LPD7nDS5dxq3L2hvSdd9jL4eKq1U/pub?gid=724427749&single=true&output=csv'
 
 df_IMDB2 = pd.read_csv(ruta2)
 df_IMDB = pd.read_csv(ruta1)
