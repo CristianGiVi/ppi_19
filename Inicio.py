@@ -76,7 +76,7 @@ def mostrarTarjeta(titulo,urlposter,descripcion,fecha):
 # Se obtienen las rutas de la bases de datos
 ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ678ypLCGK-G_2s-9ITKV_RvGhHfDK_0GZLEHHXITjZgHATPSipifh8EsKree2G6FwESWzR-n6NJOK/pub?gid=391645021&single=true&output=csv'
 
-ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSpteEzSNw3hy_2QEuKhglffsaazhLorNS-3b0_vUCb7WqeQIMtItwCweEAViVBDevykic5z2gmAXiP/pub?gid=2010989084&single=true&output=csv'
+ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPPzH9PXbY0LrUs7vtz_Z08ZPNfI9yk9iyP3HFLkoNj2vtEWZ1LPD7nDS5dxq3L2hvSdd9jL4eKq1U/pub?gid=724427749&single=true&output=csv'
 
 df_IMDB2 = pd.read_csv(ruta2)
 df_IMDB = pd.read_csv(ruta1)
