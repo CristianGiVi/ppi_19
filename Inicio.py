@@ -71,17 +71,10 @@ def mostrarTarjeta(titulo,urlposter,descripcion,fecha):
     """, unsafe_allow_html=True)
 
 
-import pandas as pd
-
-
-
-
 
 
 # Se obtienen las rutas de la bases de datos
-ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2NeukjCnMSMPRo4xRjf8Rl\
-KZt6z-EjrNEaBcLEd3JPia27Cf_m1KXFZdxN-bbwwhS-PRaE6jlRR4u/pub?gid=2030210596&sing\
-le=true&output=csv'
+ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ678ypLCGK-G_2s-9ITKV_RvGhHfDK_0GZLEHHXITjZgHATPSipifh8EsKree2G6FwESWzR-n6NJOK/pub?gid=391645021&single=true&output=csv'
 
 ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPPzH9PXbY0LrUs7vtz_Z08ZPNfI9yk9iyP3HFLkoNj2vtEWZ1LPD7nDS5dxq3L2hvSdd9jL4eKq1U/pub?gid=724427749&single=true&output=csv'
 
@@ -267,91 +260,59 @@ Family = df_IMDB[df_IMDB['Category'].str.contains('Sport')]
 
 
 # Variable que almacena la concatenacion de las categorias
-dataframe_conc = None
+dataframe_conc = df_IMDB.copy() #pd.DataFrame(columns=['Title', 'Director','Stars', 'IMDb-Rating', 'Category', 'Duration', 'Censor-board-rating', 'ReleaseYear'])
 
 
 # Categorias
 
-# Se verifica que se esta tratando de aplicar un filtro al grupo de categorias
-# Si el filtro indica "Si", se procede a almacenar en la variable
-# datagrame_conc las filas de peliculas que contienen la respectiva categoria
-# Y se eliminan las filas duplicadas
-
 #Action-Adventure
 if(categorias_Action_Adventure):
     if(categorias_Action_Adventure == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Adventure], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, Action], ignore_index=True).drop_duplicates()
+        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Action') | dataframe_conc['Category'].str.contains('Adventure')]
 
-#Family
-if(categorias_Comedy_Family):
-    if(categorias_Comedy_Family == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Comedy], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, Family], ignore_index=True).drop_duplicates()
+
+#Comedy, Family
+if(categorias_Comedy_Family == 'Si'):
+        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Family') | dataframe_conc['Category'].str.contains('Comedy')]
+
 
 
 #Crime-Horror-Thriller-Mystery
-if(categorias_Crime_Horror_Thriller_Mystery):
-    if(categorias_Crime_Horror_Thriller_Mystery == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Mystery], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, Thriller], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, Horror], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, Crime], ignore_index=True).drop_duplicates()
+if(categorias_Crime_Horror_Thriller_Mystery == 'Si'):
+    dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Crime') | dataframe_conc['Category'].str.contains('Horror') | \
+                                    dataframe_conc['Category'].str.contains('Thriller') | dataframe_conc['Category'].str.contains('Mystery')]
+
 
 #Scifi-Fantasy
-if(categorias_SciFi_Fantasy):
-    if(categorias_SciFi_Fantasy == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Fantasy], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, SciFi], ignore_index=True).drop_duplicates()
+if(categorias_SciFi_Fantasy == 'Si'):
+    dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Sci-Fi') | dataframe_conc['Category'].str.contains('Fantasy')]
 
 
 #Drama-Romance
-if(categorias_Drama_Romance):
-    if(categorias_Drama_Romance == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Romance], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, Drama], ignore_index=True).drop_duplicates()
+if(categorias_Drama_Romance == 'Si'):
+    dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Drama') | dataframe_conc['Category'].str.contains('Romance')]
 
 #Animation
-if(categorias_Animation):
-    if(categorias_Animation == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Animation], ignore_index=True).drop_duplicates()
-
+if(categorias_Animation == 'Si'):
+    dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Animation')]
 
 #Biography_War_History_Film-Noir
-if(categorias_Biography_War_History_FilmNoir):
-    if(categorias_Biography_War_History_FilmNoir == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, FilmNoir], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, History], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, War], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, Biography], ignore_index=True).drop_duplicates()
-
+if(categorias_Biography_War_History_FilmNoir == 'Si'):
+    dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Biography') | dataframe_conc['Category'].str.contains('War') | \
+                                    dataframe_conc['Category'].str.contains('History') | dataframe_conc['Category'].str.contains('Film-Noir')]
 
 #Music-Musical
-if(categorias_Music_Musical):
-    if(categorias_Music_Musical == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Musical], ignore_index=True).drop_duplicates()
-      dataframe_conc = pd.concat([dataframe_conc, Music], ignore_index=True).drop_duplicates()
+if(categorias_Music_Musical == 'Si'):
+    dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Music') | dataframe_conc['Category'].str.contains('Musical')]
 
 
 #Western
-if(categorias_Western):
-    if(categorias_Western == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Western], ignore_index=True).drop_duplicates()
-
+if(categorias_Western == 'Si'):
+    dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Western')]
 
 #Sport
-if(categorias_Sport):
-    if(categorias_Sport == 'Si'):
-      dataframe_conc = pd.concat([dataframe_conc, Sport], ignore_index=True).drop_duplicates()
-
-
-# ----------------------------------------------------------------------------------
-
-# Si no se aplico ninguno de los anteriores filtros, entonces la variable
-# dataframe almacenara los valores del dataset original
-
-if(dataframe_conc is None):
-    dataframe_conc = df_IMDB.copy()
+if(categorias_Sport == 'Si'):
+    dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Sport')]
 
 
 # ----------------------------------------------------------------------------------
