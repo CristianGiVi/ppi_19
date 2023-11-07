@@ -79,9 +79,11 @@ def obtener_fecha(titulo):
 
 # ----------------------------------------------------------------------------------
 
+st.write(df_IMDB)
+
 # Depuracion base de datos de IMDB, se eliminan las filas que tengan columnas vacias
 df_IMDB  = df_IMDB .dropna(subset=['Title'])
-df_IMDB  = df_IMDB .dropna(subset=['Director'])
+# df_IMDB  = df_IMDB .dropna(subset=['Director'])
 df_IMDB  = df_IMDB .dropna(subset=['Stars'])
 df_IMDB  = df_IMDB .dropna(subset=['IMDb-Rating'])
 df_IMDB  = df_IMDB .dropna(subset=['Category'])
