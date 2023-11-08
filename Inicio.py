@@ -1,6 +1,7 @@
 # Importar librerías de Python estándar
 import datetime
 import requests
+from st_clickable_images import clickable_images
 
 # Importar librerías de terceros
 import pandas as pd
@@ -8,6 +9,31 @@ import streamlit as st
 
 # Importar tus propios módulos 
 import pages.Iniciar_Sesion as pis
+
+def obtenerPoster(titulo):
+        url = f"https://api.themoviedb.org/3/search/movie?query={titulo}&include_adult=false&language=en-US&page=1"
+
+        headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Nzk3Mjg3MDFkYzExNTRkYWUxOTI4NGU5ZDU3MzhiMyIsInN1YiI6IjY0ZjY4NmIyYWM0MTYxMDBjNDk3YmVkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dKaSrYw9ra42qlml0rZvtZGL9mQ0OO_IjDLXUOrgjBE"
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+             data = response.json()
+
+        primeros_poster_paths = [result["poster_path"] for result in data["results"][:1]]
+        descripcion=[result["overview"] for result in data["results"][:1]]
+        fecha=[result["release_date"] for result in data ["results"][:1]]
+        nombre=[result["original_title"] for result in data["results"][:1]]
+
+        url_pagina="https://image.tmdb.org/t/p/w500"
+
+        for i in range(len(primeros_poster_paths)):
+               primeros_poster_paths[i] = url_pagina+primeros_poster_paths[i]
+
+        return primeros_poster_paths[0],descripcion[0],fecha[0],nombre[0]
 
 def mostrarMosaico(listaurl,listanombre):
      count = 0
@@ -458,14 +484,63 @@ if not mostrar_tabla:
     url_recomendadas=[]
     nombre_inicio=[]
 
+    # Contador para llevar un registro de cuántos juegos se han mostrado
+    count = 0
 
-    for i in range(20):
-       urldf=obtener_url_poster(nueva_lista[i])
-       url_recomendadas.append(urldf)
-       nombre_inicio.append(nueva_lista[i])
+    query_params = st.experimental_get_query_params().keys()
+    if 'page' not in query_params:
+        st.experimental_set_query_params(
        
+            page = 'main'
+        )
 
-    mostrarMosaico(url_recomendadas, nombre_inicio)
+    if st.experimental_get_query_params()['page'][0] == 'main':
+        image_urls = []
+        game_ids = []
+        for i in range(20):
+                count += 1
+                urldf=obtener_url_poster(nueva_lista[i])
+                image_urls.append(urldf)
+                game_ids.append(nueva_lista[i])
+                # Incrementa el contador
+                count += 1
+
+        # Muestra las imágenes como imágenes clicables
+        
+
+        clicked = clickable_images(image_urls,
+    div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+    img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='games' # Modificado
+)
+
+
+        # Si se hace clic en una imagen, redirige a la página de detalles del juego
+        if clicked > -1:
+            st.experimental_set_query_params(page='details', game_id=game_ids[clicked])
+
+    elif st.experimental_get_query_params()['page'][0] == 'details':
+        game_id = st.experimental_get_query_params()['game_id'][0]
+        
+        # Consulta de la api
+        url,descripcion,fecha,nombre=obtenerPoster(game_id)
+
+     # Muestra el nombre del juego como título de la página
+        st.title(nombre)
+
+            # Crea dos columnas para mostrar la imagen y la información del juego
+        col1, col2 = st.columns(2)
+
+            # Muestra la imagen del juego en la columna de la izquierda
+            
+        col1.image(url, use_column_width=True)
+
+        # Muestra la información del juego en la columna de la derecha
+        col2.markdown(f"**Sinopsis:** {descripcion}")
+        col2.markdown(f"**Fecha de lanzamiento** {fecha}")
+        
+        # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
+        if st.button('Volver', key='volver'):
+            st.experimental_set_query_params(page='main')
 
 
 if(mostrar_tabla):
@@ -514,3 +589,7 @@ df_vacio.to_csv("cuenta_actual.csv", index=False)
 df_cuentas.to_csv("cuentas.csv", index=False)
 
 st.write(df_cuentas)
+
+
+
+    # Contador para llevar un registro de cuántos juegos se han mostrado
