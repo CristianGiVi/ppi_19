@@ -544,29 +544,69 @@ if not mostrar_tabla:
 
 
 if(mostrar_tabla):
-  nombres_lista = nombres_peliculas.tolist()
-  url_lista=[]
-  reseña_lista=[]
-  fecha_lista=[]
-
-  for j in range(len(nombres_lista)):
-       urldf=obtener_url_poster(nombres_lista[j])
-       url_lista.append(urldf)
-       descripciondf=obtener_descripcion(nombres_lista[j])
-       reseña_lista.append(descripciondf)
-       fechadf=obtener_fecha(nombres_lista[j])
-       fecha_lista.append(fechadf)
-
-
-  for i in range(len(nombres_lista)):
-       mostrarTarjeta(
-            titulo=nombres_lista[i],
-            urlposter=url_lista[i],
-            descripcion=reseña_lista[i],
-            fecha=fecha_lista[i]
-            )
+      # Contador para llevar un registro de cuántos juegos se han mostrado
+    st.title("Peliculas recomendadas:")
     
+    nombres_lista = nombres_peliculas.tolist()
 
+    # Contador para llevar un registro de cuántos juegos se han mostrado
+    count = 0
+
+    query_params = st.experimental_get_query_params().keys()
+    if 'page' not in query_params:
+        st.experimental_set_query_params(
+       
+            page = 'main'
+        )
+
+    if st.experimental_get_query_params()['page'][0] == 'main':
+        image_urls = []
+        game_ids = []
+        for i in range(len(nombres_lista)):
+                count += 1
+                urldf=obtener_url_poster(nombres_lista[i])
+                image_urls.append(urldf)
+                game_ids.append(nombres_lista[i])
+                # Incrementa el contador
+                count += 1
+
+        # Muestra las imágenes como imágenes clicables
+        
+
+        clicked = clickable_images(image_urls,
+    div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+    img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='games' # Modificado
+)
+
+
+        # Si se hace clic en una imagen, redirige a la página de detalles del juego
+        if clicked > -1:
+            st.experimental_set_query_params(page='details', game_id=game_ids[clicked])
+
+    elif st.experimental_get_query_params()['page'][0] == 'details':
+        game_id = st.experimental_get_query_params()['game_id'][0]
+        
+        # Consulta de la api
+        url,descripcion,fecha,nombre=obtenerPoster(game_id)
+
+     # Muestra el nombre del juego como título de la página
+        st.title(nombre)
+
+            # Crea dos columnas para mostrar la imagen y la información del juego
+        col1, col2 = st.columns(2)
+
+            # Muestra la imagen del juego en la columna de la izquierda
+            
+        col1.image(url, use_column_width=True)
+
+        # Muestra la información del juego en la columna de la derecha
+        col2.markdown(f"**Sinopsis:** {descripcion}")
+        col2.markdown(f"**Fecha de lanzamiento** {fecha}")
+        
+        # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
+        if st.button('Volver', key='volver'):
+            st.experimental_set_query_params(page='main')
+  
    
 try:
     df_cuentas = pd.read_csv("cuentas.csv")
@@ -592,4 +632,3 @@ st.write(df_cuentas)
 
 
 
-    # Contador para llevar un registro de cuántos juegos se han mostrado
