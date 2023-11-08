@@ -542,6 +542,10 @@ if not mostrar_tabla:
         if st.button('Volver', key='volver'):
             st.experimental_set_query_params(page='main')
 
+        if st.button('Agregar a favoritos'):
+            #Variable para acceder a la pelicula en cuestion nombre
+            a=nombre
+
 
 if(mostrar_tabla):
   nombres_lista = nombres_peliculas.tolist()
