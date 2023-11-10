@@ -2,6 +2,7 @@
 import datetime
 import requests
 from st_clickable_images import clickable_images
+from PIL import Image
 
 # Importar librerías de terceros
 import pandas as pd
@@ -27,13 +28,14 @@ def obtenerPoster(titulo):
         descripcion=[result["overview"] for result in data["results"][:1]]
         fecha=[result["release_date"] for result in data ["results"][:1]]
         nombre=[result["original_title"] for result in data["results"][:1]]
+        id=[result["id"] for result in data["results"][:1]]
 
         url_pagina="https://image.tmdb.org/t/p/w500"
 
         for i in range(len(primeros_poster_paths)):
                primeros_poster_paths[i] = url_pagina+primeros_poster_paths[i]
 
-        return primeros_poster_paths[0],descripcion[0],fecha[0],nombre[0]
+        return primeros_poster_paths[0],descripcion[0],fecha[0],nombre[0],id[0]
 
 def mostrarMosaico(listaurl,listanombre):
      count = 0
@@ -103,6 +105,26 @@ def obtener_fecha(titulo):
     else:
         return None
 
+def consulta2(id):
+    url = f"https://api.themoviedb.org/3/movie/{id}?language=en-US"
+
+    headers = {
+    "accept": "application/json",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Nzk3Mjg3MDFkYzExNTRkYWUxOTI4NGU5ZDU3MzhiMyIsInN1YiI6IjY0ZjY4NmIyYWM0MTYxMDBjNDk3YmVkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dKaSrYw9ra42qlml0rZvtZGL9mQ0OO_IjDLXUOrgjBE"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+             data = response.json()
+    
+    runtime = data["runtime"]
+    backdrop_path = data["backdrop_path"]
+    budget = data["budget"]
+
+    backdrop_path="https://image.tmdb.org/t/p/w500"+backdrop_path
+
+    return runtime,backdrop_path,budget
 # ----------------------------------------------------------------------------------
 
 # Depuracion base de datos de IMDB, se eliminan las filas que tengan columnas vacias
@@ -522,7 +544,7 @@ if not mostrar_tabla:
         game_id = st.experimental_get_query_params()['game_id'][0]
         
         # Consulta de la api
-        url,descripcion,fecha,nombre=obtenerPoster(game_id)
+        url,descripcion,fecha,nombre,id=obtenerPoster(game_id)
 
      # Muestra el nombre del juego como título de la página
         st.title(nombre)
@@ -587,9 +609,23 @@ if(mostrar_tabla):
         game_id = st.experimental_get_query_params()['game_id'][0]
         
         # Consulta de la api
-        url,descripcion,fecha,nombre=obtenerPoster(game_id)
+        url,descripcion,fecha,nombre,id=obtenerPoster(game_id)
 
-     # Muestra el nombre del juego como título de la página
+        runtime,backdrop_path,budget=consulta2(id)
+
+
+
+        page_bg_img = '''
+<style>
+body {
+background-image: url('{backdrop_path}');
+background-size: cover;
+}
+</style>
+'''
+
+        st.markdown(page_bg_img, unsafe_allow_html=True)
+
         st.title(nombre)
 
             # Crea dos columnas para mostrar la imagen y la información del juego
@@ -599,9 +635,12 @@ if(mostrar_tabla):
             
         col1.image(url, use_column_width=True)
 
+
         # Muestra la información del juego en la columna de la derecha
         col2.markdown(f"**Sinopsis:** {descripcion}")
         col2.markdown(f"**Fecha de lanzamiento** {fecha}")
+        col2.markdown(f"**Duracion:** {runtime} **min**")
+        col2.markdown(f"**Presupuesto:** ${budget}")
         
         # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
         if st.button('Volver', key='volver'):
