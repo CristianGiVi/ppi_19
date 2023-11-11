@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
 
+
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Iniciar Sesión</h1>", unsafe_allow_html=True)
-
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
     df_cuentas = pd.read_csv("cuentas.csv")
@@ -13,9 +13,8 @@ except (FileNotFoundError,pd.errors.EmptyDataError):
 try:
     df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
 except (FileNotFoundError,pd.errors.EmptyDataError):
-    df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre","Peliculas Favoritas"])
+    df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Primer Nombre","Peliculas Favoritas"])
 
-#st.write(df_cuentas)
 # Creamos un formulario de inicio de sesión
 formulario_inicio_sesion = st.form
 with formulario_inicio_sesion("Formulario de inicio de sesión"):
@@ -27,9 +26,14 @@ with formulario_inicio_sesion("Formulario de inicio de sesión"):
     contra = st.text_input("Contraseña", type="password")
 
     # Agregamos un botón de inicio de sesión
-    st.form_submit_button("Iniciar Sesión")
+    boton_logearse = st.form_submit_button("Iniciar Sesión")
+    
 
     # Realizamos comprobaciones en la entrada del usuario y mostramos mensajes de error si es necesario
+    
+sesion_iniciada = False    
+if boton_logearse:
+        
     if correo == "" or contra == "":
         st.write(
             "<span style='color:red; font-weight:bold;'>Por favor complete todos los campos.</span>",
@@ -57,18 +61,16 @@ with formulario_inicio_sesion("Formulario de inicio de sesión"):
             {
                 "Correo": [correo],
                 "Contraseña": [contra],
-                "Nombre": [nombre_usuario],
+                "Primer Nombre": [nombre_usuario],
                 "Peliculas Favoritas": [favoritas]
             }
         )
-        df_cuenta_actual = pd.concat([df_cuenta_actual, nueva_cuenta], ignore_index=True)
-
-        # Guardamos el DataFrame actualizado en un archivo CSV
-        df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
-
-        # Mostramos el nombre de usuario en la barra lateral
-        with st.sidebar:
-            st.write("Nombre de usuario:", nombre_usuario)
+        st.write(df_cuenta_actual)
+        if len(df_cuenta_actual) < 1:
+            sesion_iniciada = True
+            df_cuenta_actual = pd.concat([df_cuenta_actual, nueva_cuenta], ignore_index=True)
+            df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
+        # Guardamos el DataFrame actualizado en un archivo
 
 # Agregar un enlace para registrarse
 st.markdown(
