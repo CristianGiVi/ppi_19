@@ -15,6 +15,7 @@ except (FileNotFoundError, pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
     )
+st.write(df_cuenta_actual)
 if len(df_cuenta_actual) == 0:
     st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 # Creamos un formulario de registro
