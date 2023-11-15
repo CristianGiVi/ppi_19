@@ -1,0 +1,2 @@
+streamlit==1.27.2  # Reemplaza con la versión específica de Streamlit que estás utilizando
+st-clickable-images==0.0.3  # Reemplaza con la versión específica que necesitas
