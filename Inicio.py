@@ -1,16 +1,21 @@
 # Importar librerías de Python estándar
 import datetime
 import requests
-from st_clickable_images import clickable_images
 
 # Importar librerías de terceros
 import pandas as pd
 import streamlit as st
+from st_clickable_images import clickable_images
 
 # Importar tus propios módulos 
 import pages.Iniciar_Sesion as pis
 
-def obtenerPoster(titulo):
+def solicitudApi(titulo):
+        """Retorna la url del poster de la pelicula, su descripcion, la fecha de lanzamiento y el id en imdb.
+
+        Esta funcion es la que solicita a la api la informacion necesaria de cada pelicula, con unicamente el parametro de su titulo.
+        """
+
         url = f"https://api.themoviedb.org/3/search/movie?query={titulo}&include_adult=false&language=en-US&page=1"
 
         headers = {
@@ -27,52 +32,14 @@ def obtenerPoster(titulo):
         descripcion=[result["overview"] for result in data["results"][:1]]
         fecha=[result["release_date"] for result in data ["results"][:1]]
         nombre=[result["original_title"] for result in data["results"][:1]]
+        id=[result["id"] for result in data["results"][:1]]
 
         url_pagina="https://image.tmdb.org/t/p/w500"
 
         for i in range(len(primeros_poster_paths)):
                primeros_poster_paths[i] = url_pagina+primeros_poster_paths[i]
 
-        return primeros_poster_paths[0],descripcion[0],fecha[0],nombre[0]
-
-def mostrarMosaico(listaurl,listanombre):
-     count = 0
-     # Inicializa la fila HTML
-     row_html = "<table><tr>"
-
-     # Muestra los juegos en Streamlit
-     for j in range(len(listaurl)) :
-            count += 1
-                
-
-            # Añade el juego a la fila HTML
-            row_html += f"<td style='border: none; width: 100px; height: 200px;text-align: center; vertical-align: top;'><img src='{listaurl[j]}'style='width: 100px; object-fit: contain;'/><br/><div style='width:100px; word-wrap: break-word;'>{listanombre[j]}</div></td>"
-
-            # Si se han añadido tres juegos a la fila, muestra la fila y comienza una nueva
-            if count % 5 == 0:
-                row_html += "</tr></table>"
-                st.write(row_html, unsafe_allow_html=True)
-                row_html = "<table><tr>"
-
-    # Si quedan juegos en la última fila, muestra la fila
-     if count % 5 != 0:
-            row_html += "</tr></table>"
-            st.write(row_html, unsafe_allow_html=True)
-
-def mostrarTarjeta(titulo,urlposter,descripcion,fecha):
-    st.write(f"""
-    <div style ='max-width: 650px; background-color: #E5E5E5; border-radius: 5px; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 43vh; margin: 20px 20px'>
-        <div style='flex: 1; padding: 20px'>
-            <h3 >{titulo}</h2>
-            <p style='font-size: smaller;'> Fecha de lanzamiento: {fecha} </p>
-            <p style='font-size: smaller;'> {descripcion} </p>
-        </div>
-        <img src="{urlposter}" alt="Poster de la película" style='max-width: 200px; height: 43vh; display: block'>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-
+        return primeros_poster_paths[0],descripcion[0],fecha[0],nombre[0],id[0]
 
 # Se obtienen las rutas de la bases de datos
 ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ678ypLCGK-G_2s-9ITKV_RvGhHfDK_0GZLEHHXITjZgHATPSipifh8EsKree2G6FwESWzR-n6NJOK/pub?gid=391645021&single=true&output=csv'
@@ -83,6 +50,10 @@ df_IMDB2 = pd.read_csv(ruta2)
 df_IMDB = pd.read_csv(ruta1)
 
 def obtener_url_poster(titulo):
+    """Retonrna la url del poster que esta en el dataframe.
+
+    Esta funcion toma como parametro el titulo de la pelicula, lo busca en el dataframe y devuelve la url del poster.
+    """
     fila = df_IMDB2[df_IMDB2['Title'] == titulo]
     if not fila.empty:
         return fila['url_poster'].values[0]
@@ -90,6 +61,10 @@ def obtener_url_poster(titulo):
         return None
 
 def obtener_descripcion(titulo):
+    """Retorna la descripcion que esta en el dataframe.
+
+    Esta funcion toma como parametro el titulo de la pelicula, lo busca en el dataframe y devuelve la sinopsis.
+    """
     fila = df_IMDB2[df_IMDB2['Title'] == titulo]
     if not fila.empty:
         return fila['descripcion'].values[0]
@@ -97,12 +72,41 @@ def obtener_descripcion(titulo):
         return None
     
 def obtener_fecha(titulo):
+    """Retorna la fecha de lanzamiento que esta en el dataframe.
+
+    Esta funcion toma como parametro el titulo de la pelicula, lo busca en el dataframe y devuelve la fecha de lanzamiento de la misma.
+    """
     fila = df_IMDB2[df_IMDB2['Title'] == titulo]
     if not fila.empty:
         return fila['fecha'].values[0]
     else:
         return None
 
+def consulta2(id):
+    """Retorna el tiempo de duracion de la pelicula, una imagen de fondo y el presupuesto de la misma.
+
+    Esta funcion toma como parametro el id previamente encontrado con el titulo en la pasada solicitud,
+    con el realizamos nuevamente otra consulta a la api para obtener algunos detalles nuevos.
+    """
+    url = f"https://api.themoviedb.org/3/movie/{id}?language=en-US"
+
+    headers = {
+    "accept": "application/json",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Nzk3Mjg3MDFkYzExNTRkYWUxOTI4NGU5ZDU3MzhiMyIsInN1YiI6IjY0ZjY4NmIyYWM0MTYxMDBjNDk3YmVkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dKaSrYw9ra42qlml0rZvtZGL9mQ0OO_IjDLXUOrgjBE"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+             data = response.json()
+    
+    runtime = data["runtime"]
+    backdrop_path = data["backdrop_path"]
+    budget = data["budget"]
+
+    backdrop_path="https://image.tmdb.org/t/p/w500"+backdrop_path
+
+    return runtime,backdrop_path,budget
 # ----------------------------------------------------------------------------------
 
 # Depuracion base de datos de IMDB, se eliminan las filas que tengan columnas vacias
@@ -481,10 +485,7 @@ if not mostrar_tabla:
     # Lista con solo los strings
     nueva_lista = [elemento[0] for elemento in lista_datos]
 
-    url_recomendadas=[]
-    nombre_inicio=[]
-
-    # Contador para llevar un registro de cuántos juegos se han mostrado
+    # Contador para llevar un registro de cuántas peliculas se han mostrado
     count = 0
 
     query_params = st.experimental_get_query_params().keys()
@@ -496,12 +497,12 @@ if not mostrar_tabla:
 
     if st.experimental_get_query_params()['page'][0] == 'main':
         image_urls = []
-        game_ids = []
+        movie_ids = []
         for i in range(20):
                 count += 1
                 urldf=obtener_url_poster(nueva_lista[i])
                 image_urls.append(urldf)
-                game_ids.append(nueva_lista[i])
+                movie_ids.append(nueva_lista[i])
                 # Incrementa el contador
                 count += 1
 
@@ -510,33 +511,38 @@ if not mostrar_tabla:
 
         clicked = clickable_images(image_urls,
     div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-    img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='games' # Modificado
+    img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='movies' # Modificado
 )
 
 
-        # Si se hace clic en una imagen, redirige a la página de detalles del juego
+        # Si se hace clic en una imagen, redirige a la página de detalles de la pelicula
         if clicked > -1:
-            st.experimental_set_query_params(page='details', game_id=game_ids[clicked])
+            st.experimental_set_query_params(page='details', movie_id=movie_ids[clicked])
 
     elif st.experimental_get_query_params()['page'][0] == 'details':
-        game_id = st.experimental_get_query_params()['game_id'][0]
+        movie_id = st.experimental_get_query_params()['movie_id'][0]
         
         # Consulta de la api
-        url,descripcion,fecha,nombre=obtenerPoster(game_id)
+        url,descripcion,fecha,nombre,id=solicitudApi(movie_id)
 
-     # Muestra el nombre del juego como título de la página
+        # Se realiza una nueva consulta con el id
+        runtime,backdrop_path,budget=consulta2(id)
+
+        # Muestra el nombre de la pelicula como título de la página
         st.title(nombre)
 
-            # Crea dos columnas para mostrar la imagen y la información del juego
+        # Crea dos columnas para mostrar la imagen y la información de la pelicula
         col1, col2 = st.columns(2)
 
-            # Muestra la imagen del juego en la columna de la izquierda
+        # Muestra la imagen de la pelicula en la columna de la izquierda
             
         col1.image(url, use_column_width=True)
 
-        # Muestra la información del juego en la columna de la derecha
+        # Muestra la información de la pelicula en la columna de la derecha
         col2.markdown(f"**Sinopsis:** {descripcion}")
         col2.markdown(f"**Fecha de lanzamiento** {fecha}")
+        col2.markdown(f"**Duracion:** {runtime} min")
+        col2.markdown(f"**Presupuesto:** ${budget}")
         
         # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
         if st.button('Volver', key='volver'):
@@ -548,29 +554,72 @@ if not mostrar_tabla:
 
 
 if(mostrar_tabla):
-  nombres_lista = nombres_peliculas.tolist()
-  url_lista=[]
-  reseña_lista=[]
-  fecha_lista=[]
-
-  for j in range(len(nombres_lista)):
-       urldf=obtener_url_poster(nombres_lista[j])
-       url_lista.append(urldf)
-       descripciondf=obtener_descripcion(nombres_lista[j])
-       reseña_lista.append(descripciondf)
-       fechadf=obtener_fecha(nombres_lista[j])
-       fecha_lista.append(fechadf)
-
-
-  for i in range(len(nombres_lista)):
-       mostrarTarjeta(
-            titulo=nombres_lista[i],
-            urlposter=url_lista[i],
-            descripcion=reseña_lista[i],
-            fecha=fecha_lista[i]
-            )
+    st.title("Peliculas recomendadas:")
     
+    nombres_lista = nombres_peliculas.tolist()
 
+    # Contador para llevar un registro de cuántas peliculas se han mostrado
+    count = 0
+
+    query_params = st.experimental_get_query_params().keys()
+    if 'page' not in query_params:
+        st.experimental_set_query_params(
+       
+            page = 'main'
+        )
+
+    if st.experimental_get_query_params()['page'][0] == 'main':
+        image_urls = []
+        movie_ids = []
+        for i in range(len(nombres_lista)):
+                count += 1
+                urldf=obtener_url_poster(nombres_lista[i])
+                image_urls.append(urldf)
+                movie_ids.append(nombres_lista[i])
+                # Incrementa el contador
+                count += 1
+
+        # Muestra las imágenes como imágenes clicables
+        
+
+        clicked = clickable_images(image_urls,
+    div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+    img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='movies' # Modificado
+)
+
+
+        # Si se hace clic en una imagen, redirige a la página de detalles de la pelicula
+        if clicked > -1:
+            st.experimental_set_query_params(page='details', movie_id=movie_ids[clicked])
+
+    elif st.experimental_get_query_params()['page'][0] == 'details':
+        movie_id = st.experimental_get_query_params()['movie_id'][0]
+        
+        # Consulta de la api
+        url,descripcion,fecha,nombre,id=solicitudApi(movie_id)
+
+        runtime,backdrop_path,budget=consulta2(id)
+
+        st.title(nombre)
+
+            # Crea dos columnas para mostrar la imagen y la información de la pelicula
+        col1, col2 = st.columns(2)
+
+            # Muestra la imagen de la pelicula en la columna de la izquierda
+            
+        col1.image(url, use_column_width=True)
+
+
+        # Muestra la información de la pelicula en la columna de la derecha
+        col2.markdown(f"**Sinopsis:** {descripcion}")
+        col2.markdown(f"**Fecha de lanzamiento** {fecha}")
+        col2.markdown(f"**Duracion:** {runtime} min")
+        col2.markdown(f"**Presupuesto:** ${budget}")
+        
+        # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
+        if st.button('Volver', key='volver'):
+            st.experimental_set_query_params(page='main')
+  
    
 try:
     df_cuentas = pd.read_csv("cuentas.csv")
@@ -596,4 +645,3 @@ st.write(df_cuentas)
 
 
 
-    # Contador para llevar un registro de cuántos juegos se han mostrado
