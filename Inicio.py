@@ -1,12 +1,11 @@
 # Importar librerías de Python estándar
 import datetime
 import requests
-from st_clickable_images import clickable_images
-from PIL import Image
 
 # Importar librerías de terceros
 import pandas as pd
 import streamlit as st
+from st_clickable_images import clickable_images
 
 # Importar tus propios módulos 
 import pages.Iniciar_Sesion as pis
