@@ -218,7 +218,7 @@ else:
         pelicula_a_borrar = st.selectbox("Indique que pelicula desea borrar",listado_peliculas)
         if boton_aplicar:
         # Borrar la película seleccionada
-            listado_peliculas.remove(pelicula_a_borrar)
+            listado_peliculas = listado_peliculas[listado_peliculas != pelicula_a_borrar]
 
         # Actualizar el DataFrame o realizar cualquier otra acción necesaria
         # Puedes imprimir un mensaje para confirmar que la película se ha borrado
