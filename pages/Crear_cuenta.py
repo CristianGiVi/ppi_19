@@ -219,7 +219,7 @@ else:
         if boton_aplicar:
         # Borrar la película seleccionada
             listado_peliculas = listado_peliculas[listado_peliculas != pelicula_a_borrar]
-            df_cuenta_actual["Peliculas Favoritas"] = listado_peliculas
+            df_cuenta_actual['Peliculas Favoritas'] = df_cuenta_actual['Peliculas Favoritas'].apply(lambda x: [pelicula for pelicula in x.split(', ') if pelicula != pelicula_a_borrar])
         # Actualizar el DataFrame o realizar cualquier otra acción necesaria
         # Puedes imprimir un mensaje para confirmar que la película se ha borrado
             st.write(f"La película '{pelicula_a_borrar}' ha sido borrada de las favoritas.")
