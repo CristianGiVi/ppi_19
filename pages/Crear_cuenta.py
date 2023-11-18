@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 # Agregamos un título HTML a la aplicación
 
-lista=[]
+
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
     df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
@@ -15,7 +15,6 @@ except (FileNotFoundError, pd.errors.EmptyDataError):
     df_cuentas = pd.DataFrame(
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
     )
-st.write(df_cuenta_actual)
 if len(df_cuenta_actual) == 0:
     st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
 # Creamos un formulario de registro
@@ -161,27 +160,59 @@ else:
     st.write("Estos son tus datos: ")
 
     seleccion = st.selectbox("Selecciona el campo de tus datos que deseas editar",["Cambiar contraseña","Cambiar Nombre","Borrar pelicula favorita"])
-    correo = df_cuenta_actual["Correo"]
+    correo = df_cuenta_actual["Correo"][0]
     boton_aplicar = st.button("Aplicar")
     boton_cerrar = st.button("Cerrar Sesion")
 
+    if boton_cerrar:
+        df_vacio = pd.DataFrame(columns=["Correo","Contraseña","Primer Nombre","Peliculas Favoritas"])
+        df_vacio.to_csv("cuenta_actual.csv", index=False)
+
+
     if seleccion == "Cambiar contraseña":
-        nueva_cont = st.text_input("Digite una nueva contraseña")
-        conf_cont = st.text_input("Digite de nuevo la contraseña")
+        nueva_cont = st.text_input("Digite una nueva contraseña",type="password")
+        conf_cont = st.text_input("Digite de nuevo la contraseña",type="password")
+
         if boton_aplicar:
             if (nueva_cont != conf_cont):
                 st.write(
             "<span style='color:red; font-weight:bold;'>Las contraseñas no coinciden</span>",
             unsafe_allow_html=True,
         )
+            elif(len(nueva_cont) < 8):
+                st.write(
+            "<span style='color:red; font-weight:bold;'>Su contraseña debe poseer 8 caracteres o mas</span>",
+            unsafe_allow_html=True,
+        )
             else:
                 df_cuenta_actual["Contraseña"] = nueva_cont
-                df_cuentas.loc[df_cuentas["Correo"] == correo,"Primer Nombre"].values[0] = nueva_cont
+                if correo in df_cuentas['Correo'].values:
+                    df_cuentas.loc[df_cuentas['Correo'] == correo, 'Contraseña'] = nueva_cont
                 st.write(
             "<span style='color:red; font-weight:bold;'>La contraseña se ha cambiado con exito</span>",
             unsafe_allow_html=True,
         )
                 df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
+                df_cuentas.to_csv("cuentas.csv", index = False)
+    
+    if seleccion == "Cambiar Nombre" :
+        nuevo_nombre = st.text_input("Digite su nuevo nombre")
+        if boton_aplicar:
+            if nuevo_nombre == "":
+                st.write(
+            "<span style='color:red; font-weight:bold;'>Su nuevo nombre no puede estar vacio</span>",
+            unsafe_allow_html=True,
+        )
+            else:
+                df_cuenta_actual["Primer Nombre"] = nuevo_nombre
+                if correo in df_cuentas['Correo'].values:
+                    df_cuentas.loc[df_cuentas['Correo'] == correo, 'Primer Nombre'] = nuevo_nombre
+                st.write(
+            "<span style='color:red; font-weight:bold;'>El Nombre se ha cambiado con exito</span>",
+            unsafe_allow_html=True,
+        )
+                df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
+                df_cuentas.to_csv("cuentas.csv", index = False)
+
         
-    #df_vacio = pd.DataFrame(columns=["Correo","Contraseña","Primer Nombre","Peliculas Favoritas"])
-    #df_vacio.to_csv("cuenta_actual.csv", index=False)
+
