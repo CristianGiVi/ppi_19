@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 # Agregamos un título HTML a la aplicación
-
+lista=[]
 
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
