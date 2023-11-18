@@ -154,10 +154,10 @@ Fecha de entrada en vigor: Octubre 28 del 2023
         st.markdown(politica_text)
 
 else:
-    st.write(df_cuenta_actual)
     titulo = "Bienvenido a tu perfil "+ df_cuenta_actual["Primer Nombre"]+ "!"
     st.title(titulo[0])
     st.write("Estos son tus datos: ")
+    st.write(df_cuenta_actual)
 
     seleccion = st.selectbox("Selecciona el campo de tus datos que deseas editar",["Cambiar contraseña","Cambiar Nombre","Borrar pelicula favorita"])
     correo = df_cuenta_actual["Correo"][0]
