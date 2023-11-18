@@ -522,6 +522,7 @@ if not mostrar_tabla:
     elif st.experimental_get_query_params()['page'][0] == 'details':
         movie_id = st.experimental_get_query_params()['movie_id'][0]
         
+        print(movie_id)
         # Consulta de la api
         url,descripcion,fecha,nombre,id=solicitudApi(movie_id)
 
@@ -529,7 +530,7 @@ if not mostrar_tabla:
         runtime,backdrop_path,budget=consulta2(id)
 
         # Muestra el nombre de la pelicula como título de la página
-        st.title(nombre)
+        st.title(movie_id)
 
         # Crea dos columnas para mostrar la imagen y la información de la pelicula
         col1, col2 = st.columns(2)
@@ -600,7 +601,7 @@ if(mostrar_tabla):
 
         runtime,backdrop_path,budget=consulta2(id)
 
-        st.title(nombre)
+        st.title(movie_id)
 
             # Crea dos columnas para mostrar la imagen y la información de la pelicula
         col1, col2 = st.columns(2)
