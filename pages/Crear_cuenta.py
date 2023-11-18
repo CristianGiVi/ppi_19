@@ -225,7 +225,13 @@ else:
             st.write(f"La película '{pelicula_a_borrar}' ha sido borrada de las favoritas.")
             st.write(df_cuenta_actual)
             st.write(listado_peliculas)
-                #df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
-                #df_cuentas.to_csv("cuentas.csv", index = False)
+            if correo in df_cuentas['Correo'].values:
+                df_cuentas.loc[df_cuentas['Correo'] == correo, 'Peliculas Favoritas'] = listado_peliculas
+                st.write(
+            "<span style='color:red; font-weight:bold;'>Las peliculas favoritas han sido cambiadas con exito</span>",
+            unsafe_allow_html=True,
+        )
+                df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
+                df_cuentas.to_csv("cuentas.csv", index = False)
         
 
