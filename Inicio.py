@@ -7,8 +7,6 @@ import pandas as pd
 import streamlit as st
 from st_clickable_images import clickable_images
 
-# Importar tus propios módulos 
-import pages.Iniciar_Sesion as pis
 
 def solicitudApi(titulo):
         """Retorna la url del poster de la pelicula, su descripcion, la fecha de lanzamiento y el id en imdb.
@@ -457,21 +455,35 @@ except (FileNotFoundError,pd.errors.EmptyDataError):
     df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
 
 
-lista_favoritas = df_cuenta_actual["Peliculas Favoritas"].tolist()
-lista_favoritas.append("Once Upon a Time in the West")
 
+
+
+
+
+
+lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+
+st.write("lista1")
 st.write(lista_favoritas)
 
-# Verifica si las películas favoritas están en la lista
-for pelicula in lista_favoritas:
-    esta_presente = pelicula in nombres_peliculas.values
+st.write("Pruebas")
+
+for i in lista_favoritas:
+    st.write(i in nombres_peliculas.tolist())
+
+
 
 # Elimina las películas favoritas de la lista
 nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 
 
-# Agrega, pero hay que tener cuidado con los indices de peliculas que ya no estan, ej. the godfather
-#lista_favoritas.append(nombres_peliculas[2])
+st.write(nombres_peliculas)
+
+
+
+
+
+
 
 # Si el checkbox está desmarcado, mostrar el mosaico de películas
 if not mostrar_tabla:
@@ -522,8 +534,7 @@ if not mostrar_tabla:
     elif st.experimental_get_query_params()['page'][0] == 'details':
         movie_id = st.experimental_get_query_params()['movie_id'][0]
         
-        print(movie_id)
-        # Consulta de la api
+
         url,descripcion,fecha,nombre,id=solicitudApi(movie_id)
 
         # Se realiza una nueva consulta con el id
@@ -551,7 +562,28 @@ if not mostrar_tabla:
 
         if st.button('Agregar a favoritos'):
             #Variable para acceder a la pelicula en cuestion nombre
-            a=nombre
+            nueva_pelicula = movie_id
+            lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+
+            # validar si la pelicula esta en la lista de favoritos
+            if nueva_pelicula in lista_favoritas:
+                st.write("La pelicula ya se encuentra entre tus peliculas favoritas")
+            else:
+                # Asegúrate de que las listas en la columna 'Peliculas Favoritas' se mantengan como listas
+                df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"] + ', ' + nueva_pelicula
+
+                # Guarda el DataFrame actualizado de vuelta al archivo CSV
+                df_cuenta_actual.to_csv('cuenta_actual.csv', index=False)
+
+                st.write("La pelicula se ha agregado con exito a tus peliculas favoritas")
+
+
+
+
+
+
+
+
 
 
 if(mostrar_tabla):
@@ -629,6 +661,13 @@ except (FileNotFoundError, pd.errors.EmptyDataError):
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
     )
 
+st.write("Cuenta actual:")
+st.write(df_cuenta_actual)
+
+st.write("Cuentas:")
+st.write(df_cuentas)
+
+
 # Verificamos si df_cuentas contiene el mismo correo que df_cuenta_actual
 if not df_cuenta_actual.empty:
     
@@ -638,10 +677,12 @@ if not df_cuenta_actual.empty:
         df_cuentas.at[idx[0], "Peliculas Favoritas"] = lista_favoritas
         
         
-df_vacio = pd.DataFrame()
-df_vacio.to_csv("cuenta_actual.csv", index=False)
+# df_vacio = pd.DataFrame()
+# df_vacio.to_csv("cuenta_actual.csv", index=False)
 df_cuentas.to_csv("cuentas.csv", index=False)
 
+
+st.write("Cuentas:")
 st.write(df_cuentas)
 
 
