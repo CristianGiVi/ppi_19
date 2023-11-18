@@ -215,10 +215,17 @@ else:
                 df_cuentas.to_csv("cuentas.csv", index = False)
     if seleccion == "Borrar pelicula favorita" :
         listado_peliculas = df_cuenta_actual["Peliculas Favoritas"].str.split(', ').explode().unique()
-        st.write(listado_peliculas)
         pelicula_a_borrar = st.selectbox("Indique que pelicula desea borrar",listado_peliculas)
         if boton_aplicar:
-            st.write("hola")
+        # Borrar la película seleccionada
+            df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"].apply(
+                lambda x: [pelicula for pelicula in x if pelicula != pelicula_a_borrar]
+        )
+
+        # Actualizar el DataFrame o realizar cualquier otra acción necesaria
+        # Puedes imprimir un mensaje para confirmar que la película se ha borrado
+            st.write(f"La película '{pelicula_a_borrar}' ha sido borrada de las favoritas.")
+            st.write(df_cuenta_actual)
                 #df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
                 #df_cuentas.to_csv("cuentas.csv", index = False)
         
