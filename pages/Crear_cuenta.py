@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 # Agregamos un título HTML a la aplicación
-lista=[]
+# lista=[]
 
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
 try:
@@ -78,7 +78,7 @@ if len(df_cuenta_actual) == 0:
                 "Primer Nombre": [p_nombre],
                 "Primer Apellido": [p_apellido],
                 "Contraseña": [contra],
-                "Peliculas Favoritas": [lista]
+                "Peliculas Favoritas": [] #lista
             }
         )
             df_cuentas = pd.concat([df_cuentas, nueva_cuenta], ignore_index=True)
