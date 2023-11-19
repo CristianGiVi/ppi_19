@@ -154,7 +154,7 @@ Fecha de entrada en vigor: Octubre 28 del 2023
         st.markdown(politica_text)
 
 else:
-    titulo = "Bienvenido a tu perfil "+ df_cuenta_actual["Primer Nombre"]+ "!"
+    titulo = "Bienvenido a tu perfil "+ str(df_cuenta_actual["Primer Nombre"]) + "!"
     st.title(titulo[0])
     st.write("Estos son tus datos: ")
     st.write(df_cuenta_actual)
