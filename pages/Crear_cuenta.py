@@ -70,6 +70,7 @@ if len(df_cuenta_actual) == 0:
             unsafe_allow_html=True,
         )
         else:
+            lista =[]
         # Si todas las comprobaciones pasan, registramos al usuario en el archivo Excel
             nueva_cuenta = pd.DataFrame(
             {
@@ -77,7 +78,7 @@ if len(df_cuenta_actual) == 0:
                 "Primer Nombre": [p_nombre],
                 "Primer Apellido": [p_apellido],
                 "Contraseña": [contra],
-                "Peliculas Favoritas": [[]]
+                "Peliculas Favoritas": [lista]
             }
         )
             df_cuentas = pd.concat([df_cuentas, nueva_cuenta], ignore_index=True)
