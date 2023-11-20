@@ -461,23 +461,11 @@ try:
 
 
     lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
-    st.write("lista1")
-    st.write(lista_favoritas)
-    st.write("Pruebas")
 
     for i in lista_favoritas:
         st.write(i in nombres_peliculas.tolist())
         nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 
-
-
-
-
-    # Elimina las películas favoritas de la lista
-
-
-
-    st.write(nombres_peliculas)
 
 
 
@@ -661,12 +649,6 @@ try:
             columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
         )
 
-    st.write("Cuenta actual:")
-    st.write(df_cuenta_actual)
-
-    st.write("Cuentas:")
-    st.write(df_cuentas)
-
 
     # Verificamos si df_cuentas contiene el mismo correo que df_cuenta_actual
     if not df_cuenta_actual.empty:
@@ -682,8 +664,6 @@ try:
     df_cuentas.to_csv("cuentas.csv", index=False)
 
 
-    st.write("Cuentas:")
-    st.write(df_cuentas)
 except(ValueError,KeyError,NameError):
     st.write(
             "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion</span>",
