@@ -463,7 +463,6 @@ try:
     lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
 
     for i in lista_favoritas:
-        st.write(i in nombres_peliculas.tolist())
         nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 
 
