@@ -462,7 +462,7 @@ except (FileNotFoundError,pd.errors.EmptyDataError):
 
 try:
     lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
-except(ValueError):
+except(ValueError,KeyError):
     st.write("Por favor inicia sesion, para poder acceder a todas las funcionalidades de la aplicacion")
 
 st.write("lista1")
