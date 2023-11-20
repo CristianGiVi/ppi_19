@@ -686,6 +686,6 @@ df_cuentas.to_csv("cuentas.csv", index=False)
 
 st.write("Cuentas:")
 st.write(df_cuentas)
-)
+
 
 
