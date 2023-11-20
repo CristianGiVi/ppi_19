@@ -468,10 +468,6 @@ try:
     for i in lista_favoritas:
         st.write(i in nombres_peliculas.tolist())
         nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
-        st.write(
-                "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion</span>",
-                unsafe_allow_html=True,
-            )
 
 
 
