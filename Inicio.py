@@ -470,7 +470,10 @@ try:
         st.write(i in nombres_peliculas.tolist())
     nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 except(ValueError,KeyError,NameError):
-    st.write("Por favor inicia sesion, para poder acceder a todas las funcionalidades de la aplicacion")
+    st.write(
+            "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion</span>",
+            unsafe_allow_html=True,
+        )
 
 
 
@@ -581,7 +584,10 @@ if not mostrar_tabla:
 
                     st.write("La pelicula se ha agregado con exito a tus peliculas favoritas")
             except(ValueError,KeyError,NameError):
-                st.write("Por favor inicia sesion, para poder acceder a todas las funcionalidades de la aplicacion")
+                st.write(
+            "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion</span>",
+            unsafe_allow_html=True,
+        )
 
 
 
