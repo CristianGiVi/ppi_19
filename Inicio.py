@@ -462,21 +462,22 @@ except (FileNotFoundError,pd.errors.EmptyDataError):
 
 try:
     lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
-except(ValueError,KeyError):
+    st.write("lista1")
+    st.write(lista_favoritas)
+    st.write("Pruebas")
+
+    for i in lista_favoritas:
+        st.write(i in nombres_peliculas.tolist())
+    nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
+except(ValueError,KeyError,NameError):
     st.write("Por favor inicia sesion, para poder acceder a todas las funcionalidades de la aplicacion")
 
-st.write("lista1")
-st.write(lista_favoritas)
 
-st.write("Pruebas")
-
-for i in lista_favoritas:
-    st.write(i in nombres_peliculas.tolist())
 
 
 
 # Elimina las películas favoritas de la lista
-nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
+
 
 
 st.write(nombres_peliculas)
@@ -565,19 +566,22 @@ if not mostrar_tabla:
         if st.button('Agregar a favoritos'):
             #Variable para acceder a la pelicula en cuestion nombre
             nueva_pelicula = movie_id
-            lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+            try: 
+                lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
 
             # validar si la pelicula esta en la lista de favoritos
-            if nueva_pelicula in lista_favoritas:
-                st.write("La pelicula ya se encuentra entre tus peliculas favoritas")
-            else:
+                if nueva_pelicula in lista_favoritas:
+                    st.write("La pelicula ya se encuentra entre tus peliculas favoritas")
+                else:
                 # Asegúrate de que las listas en la columna 'Peliculas Favoritas' se mantengan como listas
-                df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"] + ', ' + nueva_pelicula
+                    df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"] + ', ' + nueva_pelicula
 
                 # Guarda el DataFrame actualizado de vuelta al archivo CSV
-                df_cuenta_actual.to_csv('cuenta_actual.csv', index=False)
+                    df_cuenta_actual.to_csv('cuenta_actual.csv', index=False)
 
-                st.write("La pelicula se ha agregado con exito a tus peliculas favoritas")
+                    st.write("La pelicula se ha agregado con exito a tus peliculas favoritas")
+            except(ValueError,KeyError,NameError):
+                st.write("Por favor inicia sesion, para poder acceder a todas las funcionalidades de la aplicacion")
 
 
 
