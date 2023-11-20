@@ -65,7 +65,6 @@ if boton_logearse:
                 "Peliculas Favoritas": [favoritas]
             }
         )
-        st.write(df_cuenta_actual)
         if len(df_cuenta_actual) < 1:
             sesion_iniciada = True
             df_cuenta_actual = pd.concat([df_cuenta_actual, nueva_cuenta], ignore_index=True)
