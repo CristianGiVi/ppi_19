@@ -154,17 +154,23 @@ Fecha de entrada en vigor: Octubre 28 del 2023
         st.markdown(politica_text)
 
 else:
+    
+    # Crear el título para el perfil del usuario
     titulo = "Bienvenido a tu perfil "+ df_cuenta_actual["Primer Nombre"] + "!"
     st.title(titulo[0])
     st.write("Estos son tus datos: ")
+    
+    # Mostrar los datos del usuario
     st.write(df_cuenta_actual)
 
+    # Menú de selección para editar datos
     seleccion = st.selectbox("Selecciona el campo de tus datos que deseas editar",["Cambiar contraseña","Cambiar Nombre","Borrar pelicula favorita"])
     correo = df_cuenta_actual["Correo"][0]
     boton_aplicar = st.button("Aplicar")
     boton_cerrar = st.button("Cerrar Sesion")
 
     if boton_cerrar:
+        # Crear un DataFrame vacío y guardarlo en un archivo CSV para simular cerrar sesión
         df_vacio = pd.DataFrame(columns=["Correo","Contraseña","Primer Nombre","Peliculas Favoritas"])
         df_vacio.to_csv("cuenta_actual.csv", index=False)
 
@@ -174,6 +180,7 @@ else:
         conf_cont = st.text_input("Digite de nuevo la contraseña",type="password")
 
         if boton_aplicar:
+            # Verificar si las contraseñas coinciden y tienen al menos 8 caracteres
             if (nueva_cont != conf_cont):
                 st.write(
             "<span style='color:red; font-weight:bold;'>Las contraseñas no coinciden</span>",
@@ -185,6 +192,7 @@ else:
             unsafe_allow_html=True,
         )
             else:
+                # Actualizar la contraseña en los DataFrames y guardar los cambios
                 df_cuenta_actual["Contraseña"] = nueva_cont
                 if correo in df_cuentas['Correo'].values:
                     df_cuentas.loc[df_cuentas['Correo'] == correo, 'Contraseña'] = nueva_cont
@@ -196,8 +204,10 @@ else:
                 df_cuentas.to_csv("cuentas.csv", index = False)
     
     if seleccion == "Cambiar Nombre" :
+        # Solicitar y verificar nuevo nombre
         nuevo_nombre = st.text_input("Digite su nuevo nombre")
         if boton_aplicar:
+            # Verificar si el nuevo nombre no está vacío y actualizarlo en los DataFrames
             if nuevo_nombre == "":
                 st.write(
             "<span style='color:red; font-weight:bold;'>Su nuevo nombre no puede estar vacio</span>",
@@ -217,11 +227,11 @@ else:
         listado_peliculas = df_cuenta_actual["Peliculas Favoritas"].str.split(', ').explode().unique()
         pelicula_a_borrar = st.selectbox("Indique que pelicula desea borrar",listado_peliculas)
         if boton_aplicar:
-        # Borrar la película seleccionada
+            # Borrar la película seleccionada de la lista y actualizar DataFrames
             listado_peliculas = listado_peliculas[listado_peliculas != pelicula_a_borrar]
             df_cuenta_actual['Peliculas Favoritas'] = df_cuenta_actual['Peliculas Favoritas'].apply(lambda x: [pelicula for pelicula in x.split(', ') if pelicula != pelicula_a_borrar])
-        # Actualizar el DataFrame o realizar cualquier otra acción necesaria
-        # Puedes imprimir un mensaje para confirmar que la película se ha borrado
+            
+            # Actualizar el DataFrame o realizar cualquier otra acción necesaria
             st.write(f"La película '{pelicula_a_borrar}' ha sido borrada de las favoritas.")
             st.write(df_cuenta_actual)
             st.write(listado_peliculas)
@@ -230,6 +240,8 @@ else:
             "<span style='color:red; font-weight:bold;'>Las peliculas favoritas han sido cambiadas con exito</span>",
             unsafe_allow_html=True,
         )
+            
+            #Actualizar el csv
             df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
             df_cuentas.to_csv("cuentas.csv", index = False)
         

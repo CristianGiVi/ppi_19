@@ -460,8 +460,10 @@ except (FileNotFoundError,pd.errors.EmptyDataError):
 
 
 
-
-lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+try:
+    lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+except(ValueError):
+    st.write("Por favor inicia sesion, para poder acceder a todas las funcionalidades de la aplicacion")
 
 st.write("lista1")
 st.write(lista_favoritas)
@@ -684,6 +686,6 @@ df_cuentas.to_csv("cuentas.csv", index=False)
 
 st.write("Cuentas:")
 st.write(df_cuentas)
-
+)
 
 
