@@ -87,10 +87,10 @@ with col1:
 
 with col2:
     col2.subheader('Cristian Giraldo Villegas')
-    # col2.image('Imagenes/CristianPerfil.png', use_column_width = True)
+    col2.image('Imagenes/CristianPerfil.png', use_column_width = True)
     st.write("[CristianGiVi](https://github.com/CristianGiVi)")
 
 with col3:
     col3.subheader('David Ramirez Lara')
-    # col3.image('Imagenes/DavidPerfil.png', use_column_width = True)
+    col3.image('Imagenes/DavidPerfil.png', use_column_width = True)
     st.write("[dramirezla](https://github.com/dramirezla)")
