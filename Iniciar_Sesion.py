@@ -82,7 +82,7 @@ st.title("Acerca de nosotros")
 col1, col2, col3 = st.columns(3)
 with col1:
     col1.subheader('Alejandro Esteban Muñoz Osorio')
-    # col1.image('Imagenes/AlejandroPerfil.png', use_column_width = True)
+    col1.image('Imagenes/AlejandroPerfil.png', use_column_width = True)
     st.write("[almunozo](https://github.com/almunozo)")
 
 with col2:
