@@ -75,3 +75,22 @@ if boton_logearse:
 st.markdown(
     "¿No tiene una cuenta? [Regístrese aquí](https://moviematch1.streamlit.app/Crear_cuenta)"
 )
+
+st.write("---")
+
+st.title("Acerca de nosotros")
+col1, col2, col3 = st.columns(3)
+with col1:
+    col1.subheader('Alejandro Esteban Muñoz Osorio')
+    col1.image('Imagenes/AlejandroPerfil.png', use_column_width = True)
+    st.write("[almunozo](https://github.com/almunozo)")
+
+with col2:
+    col2.subheader('Cristian Giraldo Villegas')
+    col2.image('Imagenes/CristianPerfil.png', use_column_width = True)
+    st.write("[CristianGiVi](https://github.com/CristianGiVi)")
+
+with col3:
+    col3.subheader('David Ramirez Lara')
+    col3.image('Imagenes/DavidPerfil.png', use_column_width = True)
+    st.write("[dramirezla](https://github.com/dramirezla)")
