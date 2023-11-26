@@ -507,202 +507,206 @@ except (KeyError,FileNotFoundError,pd.errors.EmptyDataError):
         df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
 
     # Se extraen las peliculas favoritas del usuario las cuales estan almacenadas como un string y se convierten a una lista
-lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
 
-    # Se elimina de la lista de los nombres de las peliculas filtradas, las peliculas que estan dentro de la lista de peliculas favoritas
-for i in lista_favoritas:
-        nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
-
-    # Si el checkbox está desmarcado, mostrar el mosaico de películas
-if not mostrar_tabla:
-        st.title("Peliculas del momento:")
-        # Mostrar la primera columna y las 20 primeras filas
-        subset_df = df_IMDB2.iloc[:20, :1]
-
-        # Convertir los datos a una lista
-        lista_datos = subset_df.values.tolist()
-
-        # Lista con solo los strings
-        nueva_lista = [elemento[0] for elemento in lista_datos]
-
-        # Contador para llevar un registro de cuántas peliculas se han mostrado
-        count = 0
-
-        query_params = st.experimental_get_query_params().keys()
-        if 'page' not in query_params:
-            st.experimental_set_query_params(
-        
-                page = 'main'
-            )
-
-        if st.experimental_get_query_params()['page'][0] == 'main':
-            image_urls = []
-            movie_ids = []
-            for i in range(20):
-                    count += 1
-                    urldf=obtener_url_poster(nueva_lista[i])
-                    image_urls.append(urldf)
-                    movie_ids.append(nueva_lista[i])
-                    # Incrementa el contador
-                    count += 1
-
-            # Muestra las imágenes como imágenes clicables
-            
-
-            clicked = clickable_images(image_urls,
-        div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-        img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='movies' # Modificado
-    )
-
-
-            # Si se hace clic en una imagen, redirige a la página de detalles de la pelicula
-            if clicked > -1:
-                st.experimental_set_query_params(page='details', movie_id=movie_ids[clicked])
-
-        elif st.experimental_get_query_params()['page'][0] == 'details':
-            movie_id = st.experimental_get_query_params()['movie_id'][0]
-            
-
-            url,descripcion,fecha,nombre,id=solicitudApi(movie_id)
-
-            # Se realiza una nueva consulta con el id
-            runtime,backdrop_path,budget=consulta2(id)
-
-            # Muestra el nombre de la pelicula como título de la página
-            st.title(movie_id)
-
-            # Crea dos columnas para mostrar la imagen y la información de la pelicula
-            col1, col2 = st.columns(2)
-
-            # Muestra la imagen de la pelicula en la columna de la izquierda
-                
-            col1.image(url, use_column_width=True)
-
-            # Muestra la información de la pelicula en la columna de la derecha
-            col2.markdown(f"**Sinopsis:** {descripcion}")
-            col2.markdown(f"**Fecha de lanzamiento** {fecha}")
-            col2.markdown(f"**Duracion:** {runtime} min")
-            col2.markdown(f"**Presupuesto:** ${budget}")
-            
-            # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
-            if st.button('Volver', key='volver'):
-                st.experimental_set_query_params(page='main')
-
-            if st.button('Agregar a favoritos'):
-                # Variable que al amacena el nombre de la pelicula seleccionada
-                nueva_pelicula = movie_id 
-
-                # Se extrae el listado de las peliculas favoritas del usuario
-                lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
-
-                # El primer elemento de la lista es una lista vacia, por ende se borra del listado de peliculas favoritas de la cuenta actual
-                if(lista_favoritas[0] == '[]'):
-                    df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"].str[4:]
-
-
-                # validar si la pelicula esta en la lista de favoritos
-                if nueva_pelicula in lista_favoritas:
-                    st.write("La pelicula ya se encuentra entre tus peliculas favoritas")
-                else:
-                    # Se agrega la pelicula seleccionada junto con el resto de las peliculas favoritas del usuario
-                    df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"] + ', ' + nueva_pelicula
-
-                    # Guarda el DataFrame actualizado de vuelta al archivo CSV
-                    df_cuenta_actual.to_csv('cuenta_actual.csv', index=False)
-
-                    st.write("La pelicula se ha agregado con exito a tus peliculas favoritas")
-
-                # Se extrae el listado de las peliculas favoritas del usuario
-                lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
-
-                st.subheader("Tus peliculas favoritas actuales son: ")
-                for pelicula in lista_favoritas:
-                    st.write(pelicula)
-
-
-if(mostrar_tabla):
-        st.title("Peliculas recomendadas:")
-        
-        nombres_lista = nombres_peliculas.tolist()
-
-        # Contador para llevar un registro de cuántas peliculas se han mostrado
-        count = 0
-
-        query_params = st.experimental_get_query_params().keys()
-        if 'page' not in query_params:
-            st.experimental_set_query_params(
-        
-                page = 'main'
-            )
-
-        if st.experimental_get_query_params()['page'][0] == 'main':
-            image_urls = []
-            movie_ids = []
-            for i in range(len(nombres_lista)):
-                    count += 1
-                    urldf=obtener_url_poster(nombres_lista[i])
-                    image_urls.append(urldf)
-                    movie_ids.append(nombres_lista[i])
-                    # Incrementa el contador
-                    count += 1
-
-            # Muestra las imágenes como imágenes clicables
-            
-
-            clicked = clickable_images(image_urls,
-        div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-        img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='movies' # Modificado
-    )
-
-
-            # Si se hace clic en una imagen, redirige a la página de detalles de la pelicula
-            if clicked > -1:
-                st.experimental_set_query_params(page='details', movie_id=movie_ids[clicked])
-
-        elif st.experimental_get_query_params()['page'][0] == 'details':
-            movie_id = st.experimental_get_query_params()['movie_id'][0]
-            
-            # Consulta de la api
-            url,descripcion,fecha,nombre,id=solicitudApi(movie_id)
-
-            runtime,backdrop_path,budget=consulta2(id)
-
-            st.title(movie_id)
-
-                # Crea dos columnas para mostrar la imagen y la información de la pelicula
-            col1, col2 = st.columns(2)
-
-                # Muestra la imagen de la pelicula en la columna de la izquierda
-                
-            col1.image(url, use_column_width=True)
-
-
-            # Muestra la información de la pelicula en la columna de la derecha
-            col2.markdown(f"**Sinopsis:** {descripcion}")
-            col2.markdown(f"**Fecha de lanzamiento** {fecha}")
-            col2.markdown(f"**Duracion:** {runtime} min")
-            col2.markdown(f"**Presupuesto:** ${budget}")
-            
-            # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
-            if st.button('Volver', key='volver'):
-                st.experimental_set_query_params(page='main')
-    
-    
 try:
-        df_cuentas = pd.read_csv("cuentas.csv")
-except (FileNotFoundError, pd.errors.EmptyDataError):
-        df_cuentas = pd.DataFrame(
-            columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
+    lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+
+        # Se elimina de la lista de los nombres de las peliculas filtradas, las peliculas que estan dentro de la lista de peliculas favoritas
+    for i in lista_favoritas:
+            nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
+
+        # Si el checkbox está desmarcado, mostrar el mosaico de películas
+    if not mostrar_tabla:
+            st.title("Peliculas del momento:")
+            # Mostrar la primera columna y las 20 primeras filas
+            subset_df = df_IMDB2.iloc[:20, :1]
+
+            # Convertir los datos a una lista
+            lista_datos = subset_df.values.tolist()
+
+            # Lista con solo los strings
+            nueva_lista = [elemento[0] for elemento in lista_datos]
+
+            # Contador para llevar un registro de cuántas peliculas se han mostrado
+            count = 0
+
+            query_params = st.experimental_get_query_params().keys()
+            if 'page' not in query_params:
+                st.experimental_set_query_params(
+            
+                    page = 'main'
+                )
+
+            if st.experimental_get_query_params()['page'][0] == 'main':
+                image_urls = []
+                movie_ids = []
+                for i in range(20):
+                        count += 1
+                        urldf=obtener_url_poster(nueva_lista[i])
+                        image_urls.append(urldf)
+                        movie_ids.append(nueva_lista[i])
+                        # Incrementa el contador
+                        count += 1
+
+                # Muestra las imágenes como imágenes clicables
+                
+
+                clicked = clickable_images(image_urls,
+            div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+            img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='movies' # Modificado
         )
 
-    # Verificamos si df_cuentas contiene el mismo correo que df_cuenta_actual
-if not df_cuenta_actual.empty:
+
+                # Si se hace clic en una imagen, redirige a la página de detalles de la pelicula
+                if clicked > -1:
+                    st.experimental_set_query_params(page='details', movie_id=movie_ids[clicked])
+
+            elif st.experimental_get_query_params()['page'][0] == 'details':
+                movie_id = st.experimental_get_query_params()['movie_id'][0]
+                
+
+                url,descripcion,fecha,nombre,id=solicitudApi(movie_id)
+
+                # Se realiza una nueva consulta con el id
+                runtime,backdrop_path,budget=consulta2(id)
+
+                # Muestra el nombre de la pelicula como título de la página
+                st.title(movie_id)
+
+                # Crea dos columnas para mostrar la imagen y la información de la pelicula
+                col1, col2 = st.columns(2)
+
+                # Muestra la imagen de la pelicula en la columna de la izquierda
+                    
+                col1.image(url, use_column_width=True)
+
+                # Muestra la información de la pelicula en la columna de la derecha
+                col2.markdown(f"**Sinopsis:** {descripcion}")
+                col2.markdown(f"**Fecha de lanzamiento** {fecha}")
+                col2.markdown(f"**Duracion:** {runtime} min")
+                col2.markdown(f"**Presupuesto:** ${budget}")
+                
+                # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
+                if st.button('Volver', key='volver'):
+                    st.experimental_set_query_params(page='main')
+
+                if st.button('Agregar a favoritos'):
+                    # Variable que al amacena el nombre de la pelicula seleccionada
+                    nueva_pelicula = movie_id 
+
+                    # Se extrae el listado de las peliculas favoritas del usuario
+                    lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+
+                    # El primer elemento de la lista es una lista vacia, por ende se borra del listado de peliculas favoritas de la cuenta actual
+                    if(lista_favoritas[0] == '[]'):
+                        df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"].str[4:]
+
+
+                    # validar si la pelicula esta en la lista de favoritos
+                    if nueva_pelicula in lista_favoritas:
+                        st.write("La pelicula ya se encuentra entre tus peliculas favoritas")
+                    else:
+                        # Se agrega la pelicula seleccionada junto con el resto de las peliculas favoritas del usuario
+                        df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"] + ', ' + nueva_pelicula
+
+                        # Guarda el DataFrame actualizado de vuelta al archivo CSV
+                        df_cuenta_actual.to_csv('cuenta_actual.csv', index=False)
+
+                        st.write("La pelicula se ha agregado con exito a tus peliculas favoritas")
+
+                    # Se extrae el listado de las peliculas favoritas del usuario
+                    lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+
+                    st.subheader("Tus peliculas favoritas actuales son: ")
+                    for pelicula in lista_favoritas:
+                        st.write(pelicula)
+
+
+    if(mostrar_tabla):
+            st.title("Peliculas recomendadas:")
+            
+            nombres_lista = nombres_peliculas.tolist()
+
+            # Contador para llevar un registro de cuántas peliculas se han mostrado
+            count = 0
+
+            query_params = st.experimental_get_query_params().keys()
+            if 'page' not in query_params:
+                st.experimental_set_query_params(
+            
+                    page = 'main'
+                )
+
+            if st.experimental_get_query_params()['page'][0] == 'main':
+                image_urls = []
+                movie_ids = []
+                for i in range(len(nombres_lista)):
+                        count += 1
+                        urldf=obtener_url_poster(nombres_lista[i])
+                        image_urls.append(urldf)
+                        movie_ids.append(nombres_lista[i])
+                        # Incrementa el contador
+                        count += 1
+
+                # Muestra las imágenes como imágenes clicables
+                
+
+                clicked = clickable_images(image_urls,
+            div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+            img_style={"margin": "5px", "height": "330px", "flex": "0 0 30%"}, key='movies' # Modificado
+        )
+
+
+                # Si se hace clic en una imagen, redirige a la página de detalles de la pelicula
+                if clicked > -1:
+                    st.experimental_set_query_params(page='details', movie_id=movie_ids[clicked])
+
+            elif st.experimental_get_query_params()['page'][0] == 'details':
+                movie_id = st.experimental_get_query_params()['movie_id'][0]
+                
+                # Consulta de la api
+                url,descripcion,fecha,nombre,id=solicitudApi(movie_id)
+
+                runtime,backdrop_path,budget=consulta2(id)
+
+                st.title(movie_id)
+
+                    # Crea dos columnas para mostrar la imagen y la información de la pelicula
+                col1, col2 = st.columns(2)
+
+                    # Muestra la imagen de la pelicula en la columna de la izquierda
+                    
+                col1.image(url, use_column_width=True)
+
+
+                # Muestra la información de la pelicula en la columna de la derecha
+                col2.markdown(f"**Sinopsis:** {descripcion}")
+                col2.markdown(f"**Fecha de lanzamiento** {fecha}")
+                col2.markdown(f"**Duracion:** {runtime} min")
+                col2.markdown(f"**Presupuesto:** ${budget}")
+                
+                # Muestra un botón "Volver" que llama a la función 'volver' cuando se hace clic
+                if st.button('Volver', key='volver'):
+                    st.experimental_set_query_params(page='main')
         
-        correo = df_cuenta_actual["Correo"].iloc[0] 
-        idx = df_cuentas[df_cuentas["Correo"] == correo].index
-        if not idx.empty:
-            df_cuentas.at[idx[0], "Peliculas Favoritas"] = lista_favoritas
-                     
-df_cuentas.to_csv("cuentas.csv", index=False)
+        
+    try:
+            df_cuentas = pd.read_csv("cuentas.csv")
+    except (FileNotFoundError, pd.errors.EmptyDataError):
+            df_cuentas = pd.DataFrame(
+                columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
+            )
+
+        # Verificamos si df_cuentas contiene el mismo correo que df_cuenta_actual
+    if not df_cuenta_actual.empty:
+            
+            correo = df_cuenta_actual["Correo"].iloc[0] 
+            idx = df_cuentas[df_cuentas["Correo"] == correo].index
+            if not idx.empty:
+                df_cuentas.at[idx[0], "Peliculas Favoritas"] = lista_favoritas
+                        
+    df_cuentas.to_csv("cuentas.csv", index=False)
+except(KeyError):
+    st.write(".")
         
 
