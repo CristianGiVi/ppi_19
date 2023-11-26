@@ -7,6 +7,8 @@ import pandas as pd
 import streamlit as st
 from st_clickable_images import clickable_images
 
+st.title("Hola mundo")
+
 try:
     def solicitudApi(titulo):
             """Retorna la url del poster de la pelicula, su descripcion, la fecha de lanzamiento y el id en imdb.
