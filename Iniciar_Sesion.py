@@ -56,6 +56,7 @@ if boton_logearse:
     else:
         # Si las credenciales son correctas, mostramos un mensaje de éxito
         st.write("Inicio de sesión exitoso")
+        sesion_iniciada = True
         # Obtenemos el nombre de usuario correspondiente al correo electrónico
         nombre_usuario = df_cuentas.loc[
             df_cuentas["Correo"] == correo, "Primer Nombre"
