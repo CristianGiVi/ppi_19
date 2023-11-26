@@ -35,7 +35,8 @@ with formulario_inicio_sesion("Formulario de inicio de sesión"):
 
     # Realizamos comprobaciones en la entrada del usuario y mostramos mensajes de error si es necesario
     
-sesion_iniciada = False    
+sesion_iniciada = False
+   
 if boton_logearse:
         
     if correo == "" or contra == "":
@@ -70,7 +71,6 @@ if boton_logearse:
             }
         )
         if len(df_cuenta_actual) < 1:
-            sesion_iniciada = True
             df_cuenta_actual = pd.concat([df_cuenta_actual, nueva_cuenta], ignore_index=True)
             df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
         # Guardamos el DataFrame actualizado en un archivo
