@@ -581,6 +581,10 @@ if not mostrar_tabla:
             try: 
                 # Se extrae el listado de las peliculas favoritas del usuario
                 lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+                
+                # El primer elemento de la lista es una lista vacia, por ende se borra del listado de peliculas favoritas de la cuenta actual
+                if(lista_favoritas[0] == '[]'):
+                    df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual["Peliculas Favoritas"].str[4:]
 
             # validar si la pelicula esta en la lista de favoritos
                 if nueva_pelicula in lista_favoritas:
@@ -593,6 +597,14 @@ if not mostrar_tabla:
                     df_cuenta_actual.to_csv('cuenta_actual.csv', index=False)
 
                     st.write("La pelicula se ha agregado con exito a tus peliculas favoritas")
+                
+                # Se extrae el listado de las peliculas favoritas del usuario
+                lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+
+                st.subheader("Tus peliculas favoritas actuales son: ")
+                for pelicula in lista_favoritas:
+                    st.write(pelicula)
+                    
             except(ValueError,KeyError,NameError):
                 st.write(
             "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion</span>",
