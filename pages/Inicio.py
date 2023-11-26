@@ -7,8 +7,8 @@ import pandas as pd
 import streamlit as st
 from st_clickable_images import clickable_images
 
-try:
-    def solicitudApi(titulo):
+
+def solicitudApi(titulo):
             """Retorna la url del poster de la pelicula, su descripcion, la fecha de lanzamiento y el id en imdb.
 
             Esta funcion es la que solicita a la api la informacion necesaria de cada pelicula, con unicamente el parametro de su titulo.
@@ -40,14 +40,14 @@ try:
             return primeros_poster_paths[0],descripcion[0],fecha[0],nombre[0],id[0]
 
     # Se obtienen las rutas de la bases de datos
-    ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ678ypLCGK-G_2s-9ITKV_RvGhHfDK_0GZLEHHXITjZgHATPSipifh8EsKree2G6FwESWzR-n6NJOK/pub?gid=391645021&single=true&output=csv'
+ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ678ypLCGK-G_2s-9ITKV_RvGhHfDK_0GZLEHHXITjZgHATPSipifh8EsKree2G6FwESWzR-n6NJOK/pub?gid=391645021&single=true&output=csv'
 
-    ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPPzH9PXbY0LrUs7vtz_Z08ZPNfI9yk9iyP3HFLkoNj2vtEWZ1LPD7nDS5dxq3L2hvSdd9jL4eKq1U/pub?gid=724427749&single=true&output=csv'
+ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPPzH9PXbY0LrUs7vtz_Z08ZPNfI9yk9iyP3HFLkoNj2vtEWZ1LPD7nDS5dxq3L2hvSdd9jL4eKq1U/pub?gid=724427749&single=true&output=csv'
 
-    df_IMDB2 = pd.read_csv(ruta2)
-    df_IMDB = pd.read_csv(ruta1)
+df_IMDB2 = pd.read_csv(ruta2)
+df_IMDB = pd.read_csv(ruta1)
 
-    def obtener_url_poster(titulo):
+def obtener_url_poster(titulo):
         """Retonrna la url del poster que esta en el dataframe.
 
         Esta funcion toma como parametro el titulo de la pelicula, lo busca en el dataframe y devuelve la url del poster.
@@ -58,7 +58,7 @@ try:
         else:
             return None
 
-    def obtener_descripcion(titulo):
+def obtener_descripcion(titulo):
         """Retorna la descripcion que esta en el dataframe.
 
         Esta funcion toma como parametro el titulo de la pelicula, lo busca en el dataframe y devuelve la sinopsis.
@@ -69,7 +69,7 @@ try:
         else:
             return None
         
-    def obtener_fecha(titulo):
+def obtener_fecha(titulo):
         """Retorna la fecha de lanzamiento que esta en el dataframe.
 
         Esta funcion toma como parametro el titulo de la pelicula, lo busca en el dataframe y devuelve la fecha de lanzamiento de la misma.
@@ -80,7 +80,7 @@ try:
         else:
             return None
 
-    def consulta2(id):
+def consulta2(id):
         """Retorna el tiempo de duracion de la pelicula, una imagen de fondo y el presupuesto de la misma.
 
         Esta funcion toma como parametro el id previamente encontrado con el titulo en la pasada solicitud,
@@ -110,35 +110,35 @@ try:
     # ----------------------------------------------------------------------------------
 
     # Depuracion base de datos de IMDB, se eliminan las filas que tengan columnas vacias
-    df_IMDB  = df_IMDB .dropna(subset=['Title'])
-    df_IMDB  = df_IMDB .dropna(subset=['Stars'])
-    df_IMDB  = df_IMDB .dropna(subset=['IMDb-Rating'])
-    df_IMDB  = df_IMDB .dropna(subset=['Category'])
-    df_IMDB  = df_IMDB .dropna(subset=['Duration'])
-    df_IMDB  = df_IMDB .dropna(subset=['Censor-board-rating'])
-    df_IMDB  = df_IMDB .dropna(subset=['ReleaseYear'])
+df_IMDB  = df_IMDB .dropna(subset=['Title'])
+df_IMDB  = df_IMDB .dropna(subset=['Stars'])
+df_IMDB  = df_IMDB .dropna(subset=['IMDb-Rating'])
+df_IMDB  = df_IMDB .dropna(subset=['Category'])
+df_IMDB  = df_IMDB .dropna(subset=['Duration'])
+df_IMDB  = df_IMDB .dropna(subset=['Censor-board-rating'])
+df_IMDB  = df_IMDB .dropna(subset=['ReleaseYear'])
 
     # Se elimina el sufijo "min" y se convierten los datos de las columnas a enteros
-    df_IMDB['Duration'] = df_IMDB['Duration'].str.replace('min', '').astype(int)
+df_IMDB['Duration'] = df_IMDB['Duration'].str.replace('min', '').astype(int)
 
     # Se convierten todos los datos de la columna 'Category' a tipo string
-    df_IMDB['Category'] = df_IMDB['Category'].astype(str)
+df_IMDB['Category'] = df_IMDB['Category'].astype(str)
 
     # ----------------------------------------------------------------------------------
 
     # Se declara el titulo de la App en la pagina de inicio
-    st.markdown("# 🎉 Bienvenido a MovieMatch 🎉")
-    st.sidebar.markdown("# 🎉 MovieMatch 🎉")
-    st.write("---") 
+st.markdown("# 🎉 Bienvenido a MovieMatch 🎉")
+st.sidebar.markdown("# 🎉 MovieMatch 🎉")
+st.write("---") 
 
     # Se declaran las indicaciones a seguir para el buen funcionamiento de la APP
-    st.sidebar.header('Por favor, responde a nuestras preguntas para que podamos recomendarte \
+st.sidebar.header('Por favor, responde a nuestras preguntas para que podamos recomendarte \
     las películas adecuadas siguiendo estas pautas:')
 
-    st.sidebar.write('- Si te gusta o deseas verlo, marca "Sí".')
-    st.sidebar.write('- Si no quieres verlo o no te gusta, marca "No".')
-    st.sidebar.write('- Si eres indiferente o no tienes preferencias, simplemente no marques nada.')
-    st.sidebar.write('¡Comencemos!')
+st.sidebar.write('- Si te gusta o deseas verlo, marca "Sí".')
+st.sidebar.write('- Si no quieres verlo o no te gusta, marca "No".')
+st.sidebar.write('- Si eres indiferente o no tienes preferencias, simplemente no marques nada.')
+st.sidebar.write('¡Comencemos!')
 
     # ----------------------------------------------------------------------------------
 
@@ -146,64 +146,64 @@ try:
 
     # se concatenan todos los datos de la columna 'Category' y se separan en una lista 
     # usando como separador el caracter ";"
-    todas_categorias = ';'.join(df_IMDB['Category'])
-    todas_categorias = todas_categorias.split(';')
+todas_categorias = ';'.join(df_IMDB['Category'])
+todas_categorias = todas_categorias.split(';')
     # Se convierte la lista en una serie
-    todas_categorias = pd.Series(todas_categorias)
+todas_categorias = pd.Series(todas_categorias)
     # Con la lista convertida en serie, se usa la funcion "drop_duplicates()" para poder tener la lista 
     # Con todas las categorias de peliculas que hay sin repeticiones
-    categorias_unicas = todas_categorias.drop_duplicates()
+categorias_unicas = todas_categorias.drop_duplicates()
 
     # Se definen los selectbox que estan en el sidebar que contienen los grupos de categorias
 
     # Se declara el selectbox de las categorias (Action, Adventure)
 
-    categorias_Action_Adventure = st.sidebar.selectbox('¿Te emocionan las películas llenas de emoción y situaciones intensas?', \
+categorias_Action_Adventure = st.sidebar.selectbox('¿Te emocionan las películas llenas de emoción y situaciones intensas?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
 
     # Se declara el selectbox de las categorias (Comedia, Family)
 
-    categorias_Comedy_Family = st.sidebar.selectbox('¿Prefieres las películas que te hacen reír y pasar un buen rato?', \
+categorias_Comedy_Family = st.sidebar.selectbox('¿Prefieres las películas que te hacen reír y pasar un buen rato?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
 
     # Se declara el selectbox de las categorias (Mystery, Crime, Thriller, Horror)
 
-    categorias_Crime_Horror_Thriller_Mystery = st.sidebar.selectbox('¿Te emocionan las películas que te hacen saltar de tu asiento?', \
+categorias_Crime_Horror_Thriller_Mystery = st.sidebar.selectbox('¿Te emocionan las películas que te hacen saltar de tu asiento?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
 
     # Se declara el selectbox de las categorias (Sci-Fi, Fantasy) 
     
-    categorias_SciFi_Fantasy = st.sidebar.selectbox('¿Te interesan las películas que exploran futuros y mundos alternos?', \
+categorias_SciFi_Fantasy = st.sidebar.selectbox('¿Te interesan las películas que exploran futuros y mundos alternos?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
     
     # Se declara el selectbox de las categorias (Romance, drama)
 
-    categorias_Drama_Romance = st.sidebar.selectbox('¿Te interesan las historias emocionales y conmovedoras?', \
+categorias_Drama_Romance = st.sidebar.selectbox('¿Te interesan las historias emocionales y conmovedoras?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
     
     # Se declara el selectbox de las categorias (Animation)
 
-    categorias_Animation = st.sidebar.selectbox('¿Te diviertes con películas animadas y llenas de color?', \
+categorias_Animation = st.sidebar.selectbox('¿Te diviertes con películas animadas y llenas de color?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
     
     # Se declara el selectbox de las categorias (War, History, Biography, Film-Noir)
 
-    categorias_Biography_War_History_FilmNoir = st.sidebar.selectbox('¿Eres fanático de las películas que exploran eventos históricos o de guerra?', \
+categorias_Biography_War_History_FilmNoir = st.sidebar.selectbox('¿Eres fanático de las películas que exploran eventos históricos o de guerra?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
     
     # Se declara el selectbox de las categorias (Music, Musical)
 
-    categorias_Music_Musical = st.sidebar.selectbox('¿Te gustan las peliculas musicales?', \
+categorias_Music_Musical = st.sidebar.selectbox('¿Te gustan las peliculas musicales?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
     
     # Se declara el selectbox de las categorias (Western)
 
-    categorias_Western = st.sidebar.selectbox('¿Eres fanatico de las peliculas del viejo oeste?', \
+categorias_Western = st.sidebar.selectbox('¿Eres fanatico de las peliculas del viejo oeste?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
     
     # Se declara el selectbox de las categorias(Sport)
 
-    categorias_Sport = st.sidebar.selectbox('¿Te emocionan las películas relacionadas con competencias deportivas y la pasión por el deporte?', \
+categorias_Sport = st.sidebar.selectbox('¿Te emocionan las películas relacionadas con competencias deportivas y la pasión por el deporte?', \
     ('Si', 'No') , index=None, placeholder="Seleccione una opcion") 
 
     # ----------------------------------------------------------------------------------
@@ -211,8 +211,8 @@ try:
     # Se declaran los filtros extras que tiene la aplicacion
 
     # Se declara el checkbox que indicara si el usuario desea aplicar filtros extras o no
-    otros_filtros = st.sidebar.checkbox('Seleccionar filtros')
-    if otros_filtros:
+otros_filtros = st.sidebar.checkbox('Seleccionar filtros')
+if otros_filtros:
 
         # Se aplica el filtro por nombre en donde se le pregunta al usuario por el nombre de la pelicula
         filtro_nombre = st.sidebar.text_input('¿Cual es el nombre de la pelicula que deseas ver?', \
@@ -245,19 +245,19 @@ try:
     # ----------------------------------------------------------------------------------
 
     # Variable que almacena todas las peliculas
-    dataframe_conc = df_IMDB.copy() 
+dataframe_conc = df_IMDB.copy() 
 
     # Se aplican los filtros dependiendo de las primeras preguntas que el usuario respondio
 
     # Si el usuario selecciono 'Si' en el selecbox de action y aventura, se filtrara la variable dataframe_conc para que solo
      # contenga peliculas que en la columna 'Category' tengan 'Action' o 'Adventure'
-    if(categorias_Action_Adventure == 'Si'):
+if(categorias_Action_Adventure == 'Si'):
         condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Action') | dataframe_conc['Category'].str.contains('Adventure'))
         dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Comedy, Family
-    if(categorias_Comedy_Family == 'Si'):
+if(categorias_Comedy_Family == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Comedy, Family, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan 'Comedy' o 'Family'
@@ -266,7 +266,7 @@ try:
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Crime-Horror-Thriller-Mystery
-    if(categorias_Crime_Horror_Thriller_Mystery == 'Si'):
+if(categorias_Crime_Horror_Thriller_Mystery == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Crime-Horror-Thriller-Mystery, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Crime-Horror-Thriller-Mystery
@@ -278,7 +278,7 @@ try:
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Scifi-Fantasy
-    if(categorias_SciFi_Fantasy == 'Si'):
+if(categorias_SciFi_Fantasy == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Scifi-Fantasy, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Scifi-Fantasy
@@ -288,7 +288,7 @@ try:
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categorias: Drama-Romance
-    if(categorias_Drama_Romance == 'Si'):
+if(categorias_Drama_Romance == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Drama-Romance, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Drama-Romance
@@ -298,7 +298,7 @@ try:
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Animation
-    if(categorias_Animation == 'Si'):
+if(categorias_Animation == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Animation, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Animation
@@ -308,7 +308,7 @@ try:
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categorias: Biography_War_History_Film-Noir
-    if(categorias_Biography_War_History_FilmNoir == 'Si'):
+if(categorias_Biography_War_History_FilmNoir == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Biography_War_History_Film-Noir, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Biography_War_History_Film-Noir
@@ -320,7 +320,7 @@ try:
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Music-Musical
-    if(categorias_Music_Musical == 'Si'):
+if(categorias_Music_Musical == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Music-Musical, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Music-Musical
@@ -329,7 +329,7 @@ try:
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Western
-    if(categorias_Western == 'Si'):
+if(categorias_Western == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Western, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Western
@@ -339,7 +339,7 @@ try:
         dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Sport
-    if(categorias_Sport == 'Si'):
+if(categorias_Sport == 'Si'):
         # Si el usuario selecciono 'Si' en el selecbox de Sport, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Sport
 
@@ -352,7 +352,7 @@ try:
      
     # ---------------------------------------------------------------------------------------------
 
-    if(dataframe_conc is not None):
+if(dataframe_conc is not None):
 
         # Si el usuario selecciono 'No' en el selecbox de 'Action' o 'Adventure', se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' no tengan las categorias 'Action' o 'Adventure'
@@ -452,9 +452,9 @@ try:
     # datos_filtrados tendra el valor del datagrame original, en el caso que se aplicara
     # al menos un filtro, la variable obtendra los valores de la variable dataframe_conc
 
-    if(dataframe_conc is None):
+if(dataframe_conc is None):
         datos_filtrados = df_IMDB.copy()
-    else:
+else:
         datos_filtrados = dataframe_conc
 
     # ----------------------------------------------------------------------------------
@@ -463,7 +463,7 @@ try:
 
     #Si se decidio aplicar filtros extras, se realizaran las siguientes acciones:
 
-    if(otros_filtros):
+if(otros_filtros):
 
         # Se filtraran las peliculas que contengan los valores ingresados en el textInput de buscar por nombre
         if(filtro_nombre):
@@ -497,24 +497,24 @@ try:
     # ----------------------------------------------------------------------------------
 
     # Se extraen los nombres de las peliculas filtradas 
-    nombres_peliculas = datos_filtrados.sort_values(by='IMDb-Rating', ascending=False)['Title']
-    mostrar_tabla = st.sidebar.checkbox("Mostrar Peliculas recomendadas")
+nombres_peliculas = datos_filtrados.sort_values(by='IMDb-Rating', ascending=False)['Title']
+mostrar_tabla = st.sidebar.checkbox("Mostrar Peliculas recomendadas")
 
     # Intentamos cargar un archivo CSV existente el cual es la cuenta actual del usuario o creamos un DataFrame vacío
-    try:
+try:
         df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
-    except (KeyError,FileNotFoundError,pd.errors.EmptyDataError):
+except (KeyError,FileNotFoundError,pd.errors.EmptyDataError):
         df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
 
     # Se extraen las peliculas favoritas del usuario las cuales estan almacenadas como un string y se convierten a una lista
-    lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
+lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
 
     # Se elimina de la lista de los nombres de las peliculas filtradas, las peliculas que estan dentro de la lista de peliculas favoritas
-    for i in lista_favoritas:
+for i in lista_favoritas:
         nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 
     # Si el checkbox está desmarcado, mostrar el mosaico de películas
-    if not mostrar_tabla:
+if not mostrar_tabla:
         st.title("Peliculas del momento:")
         # Mostrar la primera columna y las 20 primeras filas
         subset_df = df_IMDB2.iloc[:20, :1]
@@ -620,7 +620,7 @@ try:
                     st.write(pelicula)
 
 
-    if(mostrar_tabla):
+if(mostrar_tabla):
         st.title("Peliculas recomendadas:")
         
         nombres_lista = nombres_peliculas.tolist()
@@ -688,26 +688,21 @@ try:
                 st.experimental_set_query_params(page='main')
     
     
-    try:
+try:
         df_cuentas = pd.read_csv("cuentas.csv")
-    except (FileNotFoundError, pd.errors.EmptyDataError):
+except (FileNotFoundError, pd.errors.EmptyDataError):
         df_cuentas = pd.DataFrame(
             columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
         )
 
     # Verificamos si df_cuentas contiene el mismo correo que df_cuenta_actual
-    if not df_cuenta_actual.empty:
+if not df_cuenta_actual.empty:
         
         correo = df_cuenta_actual["Correo"].iloc[0] 
         idx = df_cuentas[df_cuentas["Correo"] == correo].index
         if not idx.empty:
             df_cuentas.at[idx[0], "Peliculas Favoritas"] = lista_favoritas
                      
-    df_cuentas.to_csv("cuentas.csv", index=False)
-
-except(ValueError,KeyError,NameError):
-    st.write(
-            "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion</span>",
-            unsafe_allow_html=True)
+df_cuentas.to_csv("cuentas.csv", index=False)
         
 
