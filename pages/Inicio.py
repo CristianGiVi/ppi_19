@@ -6,6 +6,9 @@ import requests
 import pandas as pd
 import streamlit as st
 from st_clickable_images import clickable_images
+from Iniciar_Sesion import hola
+st.write(hola)
+
 
 
 def solicitudApi(titulo):
