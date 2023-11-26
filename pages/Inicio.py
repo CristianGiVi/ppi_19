@@ -6,7 +6,8 @@ import requests
 import pandas as pd
 import streamlit as st
 from st_clickable_images import clickable_images
-from Iniciar_Sesion import hola
+
+from Iniciar_Sesion import nueva_cuenta
 
 
 
@@ -128,7 +129,7 @@ df_IMDB['Category'] = df_IMDB['Category'].astype(str)
 # ----------------------------------------------------------------------------------
 
 # Se declara el titulo de la App en la pagina de inicio
-st.write(hola)
+st.write(nueva_cuenta)
 st.markdown("# 🎉 Bienvenido a MovieMatch 🎉")
 st.sidebar.markdown("# 🎉 MovieMatch 🎉")
 st.write("---") 

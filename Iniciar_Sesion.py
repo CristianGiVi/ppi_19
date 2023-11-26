@@ -1,11 +1,14 @@
 import streamlit as st
 import pandas as pd
 
-hola = "ojala de"
 
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Iniciar Sesión</h1>", unsafe_allow_html=True)
+
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
+
+nueva_cuenta = pd.DataFrame({})
+
 try:
     df_cuentas = pd.read_csv("cuentas.csv")
 except (FileNotFoundError,pd.errors.EmptyDataError):
