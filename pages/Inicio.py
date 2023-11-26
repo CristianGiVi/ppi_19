@@ -507,11 +507,10 @@ except (KeyError,FileNotFoundError,pd.errors.EmptyDataError):
         df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
 
     # Se extraen las peliculas favoritas del usuario las cuales estan almacenadas como un string y se convierten a una lista
-
 try:
     lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
-except(KeyError):
-    st.write(".")
+except(NameError):
+    lista_favoritas = []
 
     # Se elimina de la lista de los nombres de las peliculas filtradas, las peliculas que estan dentro de la lista de peliculas favoritas
 for i in lista_favoritas:
@@ -707,6 +706,6 @@ if not df_cuenta_actual.empty:
         if not idx.empty:
             df_cuentas.at[idx[0], "Peliculas Favoritas"] = lista_favoritas
                      
-df_cuentas.to_csv("cuentas.csv", index=False)
+    df_cuentas.to_csv("cuentas.csv", index=False)
         
 
