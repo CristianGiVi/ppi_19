@@ -455,16 +455,8 @@ except (FileNotFoundError,pd.errors.EmptyDataError):
     df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
 
 
-
-
-
-
-
 try:
     lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
-    st.write("lista1")
-    st.write(lista_favoritas)
-    st.write("Pruebas")
 
     for i in lista_favoritas:
         st.write(i in nombres_peliculas.tolist())
@@ -476,14 +468,6 @@ except(ValueError,KeyError,NameError):
         )
 
 
-
-
-
-# Elimina las películas favoritas de la lista
-
-
-
-st.write(nombres_peliculas)
 
 
 
@@ -673,11 +657,6 @@ except (FileNotFoundError, pd.errors.EmptyDataError):
         columns=["Correo", "Primer Nombre", "Primer Apellido", "Contraseña", "Peliculas Favoritas"]
     )
 
-st.write("Cuenta actual:")
-st.write(df_cuenta_actual)
-
-st.write("Cuentas:")
-st.write(df_cuentas)
 
 
 # Verificamos si df_cuentas contiene el mismo correo que df_cuenta_actual
@@ -692,9 +671,5 @@ if not df_cuenta_actual.empty:
 # df_vacio = pd.DataFrame()
 # df_vacio.to_csv("cuenta_actual.csv", index=False)
 df_cuentas.to_csv("cuentas.csv", index=False)
-
-
-st.write("Cuentas:")
-st.write(df_cuentas)
 
 
