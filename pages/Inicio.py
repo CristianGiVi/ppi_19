@@ -241,208 +241,210 @@ try:
         ('Larga', 'Media', 'Corta'), index=None, placeholder="Seleccione una opcion")
 
     # ----------------------------------------------------------------------------------
-    # # -------------------APLICAR FILTROS CATEGORIAS-----------------------------------
+    # -------------------APLICAR FILTROS CATEGORIAS-----------------------------------
     # ----------------------------------------------------------------------------------
-
-    # Peliculas filtradas por categoria
-
-    # Se extrae en variables diferntes las filas de peliculas que contienen su respectiva categoria
-
-    Action= df_IMDB[df_IMDB['Category'].str.contains('Action')]
-    Adventure = df_IMDB[df_IMDB['Category'].str.contains('Adventure')]
-    Comedy = df_IMDB[df_IMDB['Category'].str.contains('Comedy')]
-    Mystery = df_IMDB[df_IMDB['Category'].str.contains('Mystery')]
-    Thriller = df_IMDB[df_IMDB['Category'].str.contains('Thriller')]
-    Horror = df_IMDB[df_IMDB['Category'].str.contains('Horror')]
-    Crime = df_IMDB[df_IMDB['Category'].str.contains('Crime')]
-    SciFi = df_IMDB[df_IMDB['Category'].str.contains('Sci-Fi')]
-    Fantasy = df_IMDB[df_IMDB['Category'].str.contains('Fantasy')]
-    Drama = df_IMDB[df_IMDB['Category'].str.contains('Drama')]
-    Romance = df_IMDB[df_IMDB['Category'].str.contains('Romance')]
-    Animation = df_IMDB[df_IMDB['Category'].str.contains('Animation')]
-    Biography = df_IMDB[df_IMDB['Category'].str.contains('Biography')]
-    War = df_IMDB[df_IMDB['Category'].str.contains('War')]
-    History = df_IMDB[df_IMDB['Category'].str.contains('Fantasy')]
-    FilmNoir = df_IMDB[df_IMDB['Category'].str.contains('Film-Noir')]
-    Music = df_IMDB[df_IMDB['Category'].str.contains('Music')]
-    Musical = df_IMDB[df_IMDB['Category'].str.contains('Musical')]
-    Western = df_IMDB[df_IMDB['Category'].str.contains('Western')]
-    Sport = df_IMDB[df_IMDB['Category'].str.contains('Sport')]
-    Family = df_IMDB[df_IMDB['Category'].str.contains('Sport')]
-
 
     # Variable que almacena todas las peliculas
     dataframe_conc = df_IMDB.copy() 
 
     # Se aplican los filtros dependiendo de las primeras preguntas que el usuario respondio
 
-    # Filtro por categoria: Action-Adventure
-    # Solo un If es necesario.
-    if(categorias_Action_Adventure):
-
-        # Si el usuario selecciono 'Si' en el selecbox de action y aventura, se filtrara la variable dataframe_conc para que solo
-        # contenga peliculas que en la columna 'Category' tengan 'Action' o 'Adventure'
-        if(categorias_Action_Adventure == 'Si'):
-            dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Action') | dataframe_conc['Category'].str.contains('Adventure')]
-
+    # Si el usuario selecciono 'Si' en el selecbox de action y aventura, se filtrara la variable dataframe_conc para que solo
+     # contenga peliculas que en la columna 'Category' tengan 'Action' o 'Adventure'
+    if(categorias_Action_Adventure == 'Si'):
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Action') | dataframe_conc['Category'].str.contains('Adventure'))
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Comedy, Family
     if(categorias_Comedy_Family == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Comedy, Family, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan 'Comedy' o 'Family'
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Family') | dataframe_conc['Category'].str.contains('Comedy')]
-
-
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Family') | dataframe_conc['Category'].str.contains('Comedy'))
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Crime-Horror-Thriller-Mystery
     if(categorias_Crime_Horror_Thriller_Mystery == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Crime-Horror-Thriller-Mystery, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Crime-Horror-Thriller-Mystery
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Crime') | dataframe_conc['Category'].str.contains('Horror') | \
-                                        dataframe_conc['Category'].str.contains('Thriller') | dataframe_conc['Category'].str.contains('Mystery')]
 
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Crime') | dataframe_conc['Category'].str.contains('Horror') | 
+                                             dataframe_conc['Category'].str.contains('Thriller') | dataframe_conc['Category'].str.contains('Mystery')
+                                             )
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Scifi-Fantasy
     if(categorias_SciFi_Fantasy == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Scifi-Fantasy, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Scifi-Fantasy
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Sci-Fi') | dataframe_conc['Category'].str.contains('Fantasy')]
 
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Sci-Fi') | dataframe_conc['Category'].str.contains('Fantasy'))
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categorias: Drama-Romance
     if(categorias_Drama_Romance == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Drama-Romance, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Drama-Romance
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Drama') | dataframe_conc['Category'].str.contains('Romance')]
+
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Drama') | dataframe_conc['Category'].str.contains('Romance'))
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Animation
     if(categorias_Animation == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Animation, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Animation
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Animation')]
+
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Animation'))
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categorias: Biography_War_History_Film-Noir
     if(categorias_Biography_War_History_FilmNoir == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Biography_War_History_Film-Noir, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Biography_War_History_Film-Noir
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Biography') | dataframe_conc['Category'].str.contains('War') | \
-                                        dataframe_conc['Category'].str.contains('History') | dataframe_conc['Category'].str.contains('Film-Noir')]
+
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Biography') | dataframe_conc['Category'].str.contains('War') | \
+                                        dataframe_conc['Category'].str.contains('History') | dataframe_conc['Category'].str.contains('Film-Noir')
+                                        )
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Music-Musical
     if(categorias_Music_Musical == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Music-Musical, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Music-Musical
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Music') | dataframe_conc['Category'].str.contains('Musical')]
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Music') | dataframe_conc['Category'].str.contains('Musical'))
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Western
     if(categorias_Western == 'Si'):
 
         # Si el usuario selecciono 'Si' en el selecbox de Western, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Western
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Western')]
+
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Western'))
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
 
     # Filtro por categoria: Sport
     if(categorias_Sport == 'Si'):
         # Si el usuario selecciono 'Si' en el selecbox de Sport, se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' tengan las categorias Sport
-        dataframe_conc = dataframe_conc[dataframe_conc['Category'].str.contains('Sport')]
 
+        condicion_categorias_de_peliculas = (dataframe_conc['Category'].str.contains('Sport'))
+        dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+        dataframe_conc = dataframe_conc.dropna()
     # ---------------------------------------------------------------------------------------------
 
     # Filtros a aplicar por si se decidio excluir algun grupo de categorias
+     
+    # ---------------------------------------------------------------------------------------------
 
     if(dataframe_conc is not None):
 
         # Si el usuario selecciono 'No' en el selecbox de 'Action' o 'Adventure', se filtrara la variable dataframe_conc para que solo
         # contenga peliculas que en la columna 'Category' no tengan las categorias 'Action' o 'Adventure'
-        if(categorias_Action_Adventure == 'No'):
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Action')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Adventure')]
-
-
+        if(categorias_Action_Adventure == 'No'):            
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Action') & ~dataframe_conc['Category'].str.contains('Adventure'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
+            
         # Filtros por categoria: Comedy, Family
         if(categorias_Comedy_Family == 'No'):
 
             # Si el usuario selecciono 'No' en el selecbox de Comedy, Family, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias Comedy, Family
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Family')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Comedy')]
-
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Family') & ~dataframe_conc['Category'].str.contains('Comedy'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
         # Filtros para las categorias: Crime, Horror, Thriller, Mystery
         if(categorias_Crime_Horror_Thriller_Mystery == 'No'):  
 
             # Si el usuario selecciono 'No' en el selecbox de Crime-Horror-Thriller-Mystery, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias Crime-Horror-Thriller-Mystery
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Mystery')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Thriller')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Horror')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Crime')]
-
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Mystery') & ~dataframe_conc['Category'].str.contains('Thriller') &
+                                                 ~dataframe_conc['Category'].str.contains('Horror') & ~dataframe_conc['Category'].str.contains('Crime'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
         # Filtros para las categorias: Scifi, Fantasy
         if(categorias_SciFi_Fantasy == 'No'):
 
             # Si el usuario selecciono 'No' en el selecbox de Scifi, Fantasy, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias Scifi, Fantasy
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Fantasy')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Sci-Fi')]
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Fantasy') & ~dataframe_conc['Category'].str.contains('Sci-Fi'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
         # Filtros para las categorias: Drama-Romance
         if(categorias_Drama_Romance == 'No'):
 
             # Si el usuario selecciono 'No' en el selecbox de Drama-Romance, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias Drama-Romance
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Romance')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Drama')]
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Romance') & ~dataframe_conc['Category'].str.contains('Drama'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
         # Filtros para la categoria: Animation
         if(categorias_Animation == 'No'):
 
             # Si el usuario selecciono 'No' en el selecbox de Animation, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias Animation
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Animation')]
-
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Animation'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
         # Filtros para las categorias de: Biography_War_History_Film-Noir
         if(categorias_Biography_War_History_FilmNoir == 'No'):
 
             # Si el usuario selecciono 'No' en el selecbox de biography_War_History_Film-Noir, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias biography_War_History_Film-Noir
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Film-Noir')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('History')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('War')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Biography')]
 
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Film-Noir') & ~dataframe_conc['Category'].str.contains('History') &
+                                                 ~dataframe_conc['Category'].str.contains('War') & ~dataframe_conc['Category'].str.contains('Biography'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
         # Filtros para las categorias de: Music-Musical
         if(categorias_Music_Musical == 'No'):
 
             # Si el usuario selecciono 'No' en el selecbox de Music-Musical, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias Music-Musical
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Musical')]
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Music')]
+
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Musical') & ~dataframe_conc['Category'].str.contains('Music'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
         # Filtro para la categoria de: Western
         if(categorias_Western == 'No'):
 
             # Si el usuario selecciono 'No' en el selecbox de Western, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias Western
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Western')]
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Western'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
         # Filtro para la categoria de: Sport
         if(categorias_Sport == 'No'): 
 
             # Si el usuario selecciono 'No' en el selecbox de Sport, se filtrara la variable dataframe_conc para que solo
             # contenga peliculas que en la columna 'Category' no tengan las categorias Sport
-            dataframe_conc = dataframe_conc[~dataframe_conc['Category'].str.contains('Sport')]
+            condicion_categorias_de_peliculas = (~dataframe_conc['Category'].str.contains('Sport'))
+            dataframe_conc = dataframe_conc.where(condicion_categorias_de_peliculas)
+            dataframe_conc = dataframe_conc.dropna()
 
     # ----------------------------------------------------------------------------------
 
