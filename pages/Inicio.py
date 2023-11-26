@@ -503,7 +503,7 @@ try:
     # Intentamos cargar un archivo CSV existente el cual es la cuenta actual del usuario o creamos un DataFrame vacío
     try:
         df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
-    except (FileNotFoundError,pd.errors.EmptyDataError):
+    except (KeyError,FileNotFoundError,pd.errors.EmptyDataError):
         df_cuenta_actual = pd.DataFrame(columns=["Correo", "Contraseña","Nombre", "Peliculas Favoritas"])
 
     # Se extraen las peliculas favoritas del usuario las cuales estan almacenadas como un string y se convierten a una lista
