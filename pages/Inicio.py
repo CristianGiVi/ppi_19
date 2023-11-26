@@ -459,8 +459,7 @@ try:
     lista_favoritas = df_cuenta_actual["Peliculas Favoritas"][0].split(', ')
 
     for i in lista_favoritas:
-        st.write(i in nombres_peliculas.tolist())
-    nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
+        nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 except(ValueError,KeyError,NameError):
     st.write(
             "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion</span>",
