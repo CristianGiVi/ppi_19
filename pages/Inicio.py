@@ -4,6 +4,7 @@ import requests
 
 # Importar librerías de terceros
 import pandas as pd
+import matplotlib.pyplot as plt
 import streamlit as st
 import ast
 from st_clickable_images import clickable_images
@@ -719,7 +720,46 @@ if cuenta_actual != None or cuenta_actual is not None:
 
 else:
     st.write(
-            "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion</span>",
+            "<span style='color:red; font-weight:bold;'>Por favor inicia sesion antes de usar la aplicacion, para poder tener acceso al recomendador.</span>",
             unsafe_allow_html=True)
+    ruta1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ678ypLCGK-G_2s-9ITKV_RvGhHfDK_0GZLEHHXITjZgHATPSipifh8EsKree2G6FwESWzR-n6NJOK/pub?gid=391645021&single=true&output=csv'
+
+    ruta2= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPPzH9PXbY0LrUs7vtz_Z08ZPNfI9yk9iyP3HFLkoNj2vtEWZ1LPD7nDS5dxq3L2hvSdd9jL4eKq1U/pub?gid=724427749&single=true&output=csv'
+
+    df_IMDB2 = pd.read_csv(ruta2)
+    df_IMDB = pd.read_csv(ruta1)
+    st.title("Algunos graficos interesantes respecto a nuestra base de datos de peliculas")
+        # Convierte la columna 'Duration' a tipo de datos cadena
+    df_IMDB['Duration'] = df_IMDB['Duration'].astype(str)
+
+# Definir una expresión regular que coincida con cualquier secuencia de dígitos
+    df_IMDB['Duration'] = df_IMDB['Duration'].str.extract('(\d+)', expand=False)
+
+# Convierte la columna 'Duration' a tipos de datos numéricos
+    df_IMDB['Duration'] = pd.to_numeric(df_IMDB['Duration'], errors='coerce')
+
+# Crear el histograma
+    fig, ax = plt.subplots()
+    ax.hist(df_IMDB['Duration'].tolist(), bins=10, edgecolor='black')
+    ax.set_xlabel('Duración (minutos)')
+    ax.set_ylabel('Frecuencia')
+    ax.set_title('Distribución de duraciones de películas recomendadas')
+
+# Mostrar el histograma en Streamlit
+    st.pyplot(fig)
+
+    df_IMDB['ReleaseYear'] = df_IMDB['ReleaseYear'].astype(float)
+    df_IMDB['IMDb-Rating'] = df_IMDB['IMDb-Rating'].astype(float)
+
+
+# Crear el gráfico de dispersión
+    fig2, ax = plt.subplots()
+    ax.scatter(df_IMDB['ReleaseYear'].tolist(), df_IMDB['IMDb-Rating'].tolist())
+    ax.set_xlabel('Año de lanzamiento')
+    ax.set_ylabel('Calificacion en IMDB')
+    ax.set_title('Relación entre el año de lanzamiento y la calificacion de las peliculas')
+
+# Mostrar el gráfico en Streamlit
+    st.pyplot(fig2)
         
 
