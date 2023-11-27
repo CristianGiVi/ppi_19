@@ -298,7 +298,9 @@ else:
 
     st.subheader("Tus peliculas favoritas actuales son: ")
     for pelicula in cuenta_actual["Peliculas Favoritas"][0].split(', '):
-        if pelicula != []:
-            st.write(pelicula)
+        if pelicula == '[]':
+            st.write("No tienes peliculas favoritas")
+        else:
+            st.write(pelicula) 
 
 
