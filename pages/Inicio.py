@@ -534,8 +534,6 @@ if cuenta_actual != None or cuenta_actual is not None:
 
     # Se extraen las peliculas favoritas del usuario las cuales estan almacenadas como un string y se convierten a una lista
     lista_favoritas = cuenta_actual["Peliculas Favoritas"][0].split(', ')
-    st.write(cuenta_actual)
-
 
     # Se elimina de la lista de los nombres de las peliculas filtradas, las peliculas que estan dentro de la lista de peliculas favoritas
     for i in lista_favoritas:

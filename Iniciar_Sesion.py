@@ -79,7 +79,6 @@ if boton_logearse:
             "Primer Apellido" : [apellido],
             "Peliculas Favoritas": [favoritas]
         }
-        st.write(data)
         localS.setItem("data", str(data))
         # Si las credenciales son correctas, mostramos un mensaje de éxito
         st.write("Inicio de sesión exitoso")
