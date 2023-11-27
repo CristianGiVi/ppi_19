@@ -4,7 +4,11 @@ import pandas as pd
 
 # Agregamos un título HTML a la aplicación
 st.markdown("<h1>Iniciar Sesión</h1>", unsafe_allow_html=True)
+
 # Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
+
+nueva_cuenta = pd.DataFrame({})
+
 try:
     df_cuentas = pd.read_csv("cuentas.csv")
 except (FileNotFoundError,pd.errors.EmptyDataError):
@@ -31,7 +35,7 @@ with formulario_inicio_sesion("Formulario de inicio de sesión"):
 
     # Realizamos comprobaciones en la entrada del usuario y mostramos mensajes de error si es necesario
     
-sesion_iniciada = False    
+   
 if boton_logearse:
         
     if correo == "" or contra == "":
@@ -51,6 +55,7 @@ if boton_logearse:
     else:
         # Si las credenciales son correctas, mostramos un mensaje de éxito
         st.write("Inicio de sesión exitoso")
+        sesion_iniciada = True
         # Obtenemos el nombre de usuario correspondiente al correo electrónico
         nombre_usuario = df_cuentas.loc[
             df_cuentas["Correo"] == correo, "Primer Nombre"
@@ -66,7 +71,6 @@ if boton_logearse:
             }
         )
         if len(df_cuenta_actual) < 1:
-            sesion_iniciada = True
             df_cuenta_actual = pd.concat([df_cuenta_actual, nueva_cuenta], ignore_index=True)
             df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
         # Guardamos el DataFrame actualizado en un archivo
@@ -75,3 +79,22 @@ if boton_logearse:
 st.markdown(
     "¿No tiene una cuenta? [Regístrese aquí](https://moviematch1.streamlit.app/Crear_cuenta)"
 )
+
+st.write("---")
+
+st.title("Acerca de nosotros")
+col1, col2, col3 = st.columns(3)
+with col1:
+    col1.subheader('Alejandro Esteban Muñoz Osorio')
+    col1.image('Imagenes/AlejandroPerfil.png', use_column_width = True)
+    st.write("[almunozo](https://github.com/almunozo)")
+
+with col2:
+    col2.subheader('Cristian Giraldo Villegas')
+    col2.image('Imagenes/CristianPerfil.png', use_column_width = True)
+    st.write("[CristianGiVi](https://github.com/CristianGiVi)")
+
+with col3:
+    col3.subheader('David Ramirez Lara')
+    col3.image('Imagenes/DavidPerfil.png', use_column_width = True)
+    st.write("[dramirezla](https://github.com/dramirezla)")
