@@ -177,12 +177,12 @@ if cuenta_actual == None or cuenta_actual is None:
         st.markdown(politica_text)
 else:
     # Crear el título para el perfil del usuario
-    titulo = "Bienvenido a tu perfil " + str(cuenta_actual["Primer Nombre"][0]) + "!"
+    titulo = "Bienvenido a tu perfil " + str(cuenta_actual["Primer Nombre"][0]) + " " + str(cuenta_actual["Primer Apellido"][0]) + "!"
     st.title(titulo)
 
-    st.write("Estos son tus datos: ")
-    # Mostrar los datos del usuario
-
+    st.subheader("Tus peliculas favoritas actuales son: ")
+    for pelicula in cuenta_actual["Peliculas Favoritas"][0].split(', '):
+        st.write(pelicula)
 
     # Menú de selección para editar datos
     seleccion = st.selectbox(
