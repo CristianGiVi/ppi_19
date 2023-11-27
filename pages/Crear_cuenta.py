@@ -187,7 +187,7 @@ else:
     # Menú de selección para editar datos
     seleccion = st.selectbox(
         "Selecciona el campo de tus datos que deseas editar",
-        ["Cambiar contraseña", "Cambiar Nombre", "Borrar pelicula favorita"],
+        ["Cambiar contraseña", "Cambiar Nombre"],
     )
     correo = cuenta_actual["Correo"][0]
     boton_aplicar = st.button("Aplicar")
@@ -299,51 +299,6 @@ else:
                     unsafe_allow_html=True,
                 )
 
-"""
-
-    if seleccion == "Borrar pelicula favorita":
-        listado_peliculas = (
-            df_cuenta_actual["Peliculas Favoritas"].str.split(", ").explode().unique()
-        )
-        pelicula_a_borrar = st.selectbox(
-            "Indique que pelicula desea borrar", listado_peliculas
-        )
-        if boton_aplicar:
-            # Borrar la película seleccionada de la lista y actualizar DataFrames
-            listado_peliculas = listado_peliculas[
-                listado_peliculas != pelicula_a_borrar
-            ]
-            df_cuenta_actual["Peliculas Favoritas"] = df_cuenta_actual[
-                "Peliculas Favoritas"
-            ].apply(
-                lambda x: [
-                    pelicula
-                    for pelicula in x.split(", ")
-                    if pelicula != pelicula_a_borrar
-                ]
-            )
-
-            # Actualizar el DataFrame o realizar cualquier otra acción necesaria
-            st.write(
-                f"La película '{pelicula_a_borrar}' ha sido borrada de las favoritas."
-            )
-            st.write(df_cuenta_actual)
-            st.write(listado_peliculas)
-            df_cuentas.loc[
-                df_cuentas["Correo"] == correo, "Peliculas Favoritas"
-            ] = df_cuenta_actual
-            st.write(
-                "<span style='color:red; font-weight:bold;'>Las peliculas favoritas han sido cambiadas con exito</span>",
-                unsafe_allow_html=True,
-            )
-
-            # Actualizar el csv
-            df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
-            df_cuentas.to_csv("cuentas.csv", index=False)
-
-
-
-"""
 
 
 
