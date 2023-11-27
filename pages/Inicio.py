@@ -535,14 +535,16 @@ mostrar_tabla = st.sidebar.checkbox("Mostrar Peliculas recomendadas")
 # Se extraen las peliculas favoritas del usuario las cuales estan almacenadas como un string y se convierten a una lista
 try:
     lista_favoritas = cuenta_actual["Peliculas Favoritas"][0].split(', ')
-except(TypeError):
+    for i in lista_favoritas:
+        nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
+except(TypeError,NameError):
     st.write("Porfavor inice sesion")
+    
 st.write(cuenta_actual)
 
 
 # Se elimina de la lista de los nombres de las peliculas filtradas, las peliculas que estan dentro de la lista de peliculas favoritas
-for i in lista_favoritas:
-    nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
+
 
 # Si el checkbox está desmarcado, mostrar el mosaico de películas
 if not mostrar_tabla:
