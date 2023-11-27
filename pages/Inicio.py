@@ -539,7 +539,7 @@ try:
         nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 except(TypeError,NameError):
     st.write(
-                "<span style='color:red; font-weight:bold;'>Por favor inicie sesion</span>",
+                "<span style='color:red; font-weight:bold;'>Por favor inicie sesion, para poder añadir peliculas favoritas a su perfil</span>",
                 unsafe_allow_html=True,
             )
     
