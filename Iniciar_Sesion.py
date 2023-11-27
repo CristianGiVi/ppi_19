@@ -35,7 +35,6 @@ with formulario_inicio_sesion("Formulario de inicio de sesión"):
 
     # Realizamos comprobaciones en la entrada del usuario y mostramos mensajes de error si es necesario
     
-sesion_iniciada = False
    
 if boton_logearse:
         
