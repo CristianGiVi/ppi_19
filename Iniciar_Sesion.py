@@ -103,9 +103,3 @@ with col3:
     col3.subheader('David Ramirez Lara')
     col3.image('Imagenes/DavidPerfil.png', use_column_width = True)
     st.write("[dramirezla](https://github.com/dramirezla)")
-
-
-# Agregar un enlace para registrarse
-st.markdown(
-    "¿No tiene una cuenta? [Regístrese aquí](https://moviematch2.streamlit.app/Crear_cuenta)"
-)
