@@ -538,7 +538,10 @@ try:
     for i in lista_favoritas:
         nombres_peliculas = nombres_peliculas[~nombres_peliculas.isin(lista_favoritas)]
 except(TypeError,NameError):
-    st.write("Porfavor inice sesion")
+    st.write(
+                "<span style='color:red; font-weight:bold;'>Por favor inicie sesion</span>",
+                unsafe_allow_html=True,
+            )
     
 st.write(cuenta_actual)
 
