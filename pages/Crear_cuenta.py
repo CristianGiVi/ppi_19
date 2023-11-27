@@ -182,7 +182,8 @@ else:
 
     st.subheader("Tus peliculas favoritas actuales son: ")
     for pelicula in cuenta_actual["Peliculas Favoritas"][0].split(', '):
-        st.write(pelicula)
+        if pelicula != []:
+            st.write(pelicula)
 
     # Menú de selección para editar datos
     seleccion = st.selectbox(
