@@ -5,6 +5,7 @@ import requests
 # Importar librerías de terceros
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 import streamlit as st
 import ast
 from st_clickable_images import clickable_images
@@ -729,7 +730,7 @@ else:
     df_IMDB2 = pd.read_csv(ruta2)
     df_IMDB = pd.read_csv(ruta1)
     st.title("Algunos graficos interesantes respecto a nuestra base de datos de peliculas")
-        # Convierte la columna 'Duration' a tipo de datos cadena
+    # Convierte la columna 'Duration' a tipo de datos cadena
     df_IMDB['Duration'] = df_IMDB['Duration'].astype(str)
 
 # Definir una expresión regular que coincida con cualquier secuencia de dígitos
@@ -748,6 +749,10 @@ else:
 # Mostrar el histograma en Streamlit
     st.pyplot(fig)
 
+    mean_duration = np.mean(df_IMDB['Duration'])
+
+    st.markdown(F"Dandonos asi una duracion media de las peliculas de {mean_duration} minutos ")
+    
     df_IMDB['ReleaseYear'] = df_IMDB['ReleaseYear'].astype(float)
     df_IMDB['IMDb-Rating'] = df_IMDB['IMDb-Rating'].astype(float)
 
@@ -761,5 +766,9 @@ else:
 
 # Mostrar el gráfico en Streamlit
     st.pyplot(fig2)
+
+    stars = np.mean(df_IMDB['IMDb-Rating'])
+
+    st.markdown(f"En promedio las peliculas tienen una calificacion de {stars} en IMDB")
         
 
