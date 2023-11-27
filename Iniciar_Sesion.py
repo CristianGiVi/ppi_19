@@ -93,7 +93,6 @@ with col1:
     col1.subheader('Alejandro Esteban Muñoz Osorio')
     col1.image('Imagenes/AlejandroPerfil.png', use_column_width = True)
     st.write("[almunozo](https://github.com/almunozo)")
-st.write(df_cuentas)
 
 with col2:
     col2.subheader('Cristian Giraldo Villegas')
