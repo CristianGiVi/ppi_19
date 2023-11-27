@@ -180,10 +180,6 @@ else:
     titulo = "Bienvenido a tu perfil " + str(cuenta_actual["Primer Nombre"][0]) + " " + str(cuenta_actual["Primer Apellido"][0]) + "!"
     st.title(titulo)
 
-    st.subheader("Tus peliculas favoritas actuales son: ")
-    for pelicula in cuenta_actual["Peliculas Favoritas"][0].split(', '):
-        st.write(pelicula)
-
     # Menú de selección para editar datos
     seleccion = st.selectbox(
         "Selecciona el campo de tus datos que deseas editar",
@@ -192,6 +188,7 @@ else:
     correo = cuenta_actual["Correo"][0]
     boton_aplicar = st.button("Aplicar")
     boton_cerrar = st.button("Cerrar Sesion")
+
 
     if boton_cerrar:
         # Crear un DataFrame vacío y guardarlo en un archivo CSV para simular cerrar sesión
@@ -299,6 +296,11 @@ else:
                     unsafe_allow_html=True,
                 )
 
-
+    st.subheader("Tus peliculas favoritas actuales son: ")
+    for pelicula in cuenta_actual["Peliculas Favoritas"][0].split(', '):
+        if pelicula == '[]':
+            st.write("No tienes peliculas favoritas")
+        else:
+            st.write(pelicula) 
 
 
