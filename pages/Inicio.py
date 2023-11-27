@@ -129,7 +129,7 @@ df_IMDB['Category'] = df_IMDB['Category'].astype(str)
 # ----------------------------------------------------------------------------------
 
 # Se declara el titulo de la App en la pagina de inicio
-st.write("Pasa parametro")
+st.write("Hola mundo deja hacer edicion")
 st.write(correo)
 st.write(sesion_iniciada)
 st.write(boton_logearse)
