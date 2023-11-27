@@ -190,12 +190,6 @@ else:
     boton_cerrar = st.button("Cerrar Sesion")
 
 
-    st.subheader("Tus peliculas favoritas actuales son: ")
-    for pelicula in cuenta_actual["Peliculas Favoritas"][0].split(', '):
-        if pelicula != []:
-            st.write(pelicula)
-
-
     if boton_cerrar:
         # Crear un DataFrame vacío y guardarlo en un archivo CSV para simular cerrar sesión
         localS = LocalStorage()
@@ -302,6 +296,9 @@ else:
                     unsafe_allow_html=True,
                 )
 
-
+    st.subheader("Tus peliculas favoritas actuales son: ")
+    for pelicula in cuenta_actual["Peliculas Favoritas"][0].split(', '):
+        if pelicula != []:
+            st.write(pelicula)
 
 
