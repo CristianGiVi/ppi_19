@@ -533,7 +533,10 @@ mostrar_tabla = st.sidebar.checkbox("Mostrar Peliculas recomendadas")
 
 
 # Se extraen las peliculas favoritas del usuario las cuales estan almacenadas como un string y se convierten a una lista
-lista_favoritas = cuenta_actual["Peliculas Favoritas"][0].split(', ')
+try:
+    lista_favoritas = cuenta_actual["Peliculas Favoritas"][0].split(', ')
+except(TypeError):
+    st.write("Porfavor inice sesion")
 st.write(cuenta_actual)
 
 
