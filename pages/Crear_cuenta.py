@@ -1,16 +1,29 @@
 # Importamos las bibliotecas necesarias
 import streamlit as st
 import pandas as pd
+from streamlit_local_storage import LocalStorage
+import ast
+
+
+def getCredentials():
+    """Función para obtener las credenciales del almacenamiento local.
+    
+    En el caso de funcionar, devuelve las credenciales en forma de diccionario,
+    en el caso contrario retorna None
+    """
+
+    try:
+        localS = LocalStorage()
+        info_user = localS.getItem("data")['storage']['value']
+        print(info_user) 
+        credenciales = ast.literal_eval(info_user)
+        return credenciales
+    except Exception as e:
+        print("error", e)
+        return None
 
 # Agregamos un título HTML a la aplicación
 
-# Intentamos cargar un archivo CSV existente o creamos un DataFrame vacío
-try:
-    df_cuenta_actual = pd.read_csv("cuenta_actual.csv")
-except (FileNotFoundError, pd.errors.EmptyDataError):
-    df_cuenta_actual = pd.DataFrame(
-        columns=["Correo", "Contraseña", "Primer Nombre", "Peliculas Favoritas"]
-    )
 try:
     df_cuentas = pd.read_csv("cuentas.csv")
 except (FileNotFoundError, pd.errors.EmptyDataError):
@@ -23,7 +36,8 @@ except (FileNotFoundError, pd.errors.EmptyDataError):
             "Peliculas Favoritas",
         ]
     )
-if len(df_cuenta_actual) == 0:
+cuenta_actual = getCredentials()
+if cuenta_actual == None or cuenta_actual is None:
     st.markdown("<h1>Registro de usuario</h1>", unsafe_allow_html=True)
     # Creamos un formulario de registro
     formulario_registro = st.form
@@ -100,93 +114,90 @@ if len(df_cuenta_actual) == 0:
 
     # Texto de la política de tratamiento de datos personales
     politica_text = """
-# Política de Tratamiento de Datos Personales
+    # Política de Tratamiento de Datos Personales
 
-## 1. Introducción
+    ## 1. Introducción
 
-Esta Política de Tratamiento de Datos Personales describe cómo Moviematch recopila, utiliza, almacena y protege la información personal que proporcionas a través de nuestra aplicación. Esta Política se aplica a todos los usuarios de la Aplicación.
+    Esta Política de Tratamiento de Datos Personales describe cómo Moviematch recopila, utiliza, almacena y protege la información personal que proporcionas a través de nuestra aplicación. Esta Política se aplica a todos los usuarios de la Aplicación.
 
-## 2. Información Personal que Recopilamos
+    ## 2. Información Personal que Recopilamos
 
-Recopilamos información personal que tú proporcionas voluntariamente cuando utilizas la Aplicación. Esta información puede incluir, entre otros:
+    Recopilamos información personal que tú proporcionas voluntariamente cuando utilizas la Aplicación. Esta información puede incluir, entre otros:
 
-- Nombre y apellidos.
-- Dirección de correo electrónico.
-- Preferencias de género para recomendaciones de películas.
-- Historial de visualización y calificaciones de películas.
-- Información de la cuenta, como nombre de usuario y contraseña.
+    - Nombre y apellidos.
+    - Dirección de correo electrónico.
+    - Preferencias de género para recomendaciones de películas.
+    - Historial de visualización y calificaciones de películas.
+    - Información de la cuenta, como nombre de usuario y contraseña.
 
-## 3. Uso de la Información Personal
+    ## 3. Uso de la Información Personal
 
-Utilizamos la información personal que recopilamos para los siguientes propósitos:
+    Utilizamos la información personal que recopilamos para los siguientes propósitos:
 
-- Proporcionar recomendaciones personalizadas de películas.
-- Mejorar la experiencia del usuario en la Aplicación.
-- Proteger la seguridad de la Aplicación y de nuestros usuarios.
-- Cumplir con las leyes y regulaciones aplicables.
+    - Proporcionar recomendaciones personalizadas de películas.
+    - Mejorar la experiencia del usuario en la Aplicación.
+    - Proteger la seguridad de la Aplicación y de nuestros usuarios.
+    - Cumplir con las leyes y regulaciones aplicables.
 
-## 4. Consentimiento
+    ## 4. Consentimiento
 
-Al utilizar la Aplicación, aceptas y consientes el tratamiento de tu información personal de acuerdo con esta Política.
+    Al utilizar la Aplicación, aceptas y consientes el tratamiento de tu información personal de acuerdo con esta Política.
 
-## 5. Compartir Información Personal
+    ## 5. Compartir Información Personal
 
-No compartimos tu información personal con terceros sin tu consentimiento, excepto en los siguientes casos:
+    No compartimos tu información personal con terceros sin tu consentimiento, excepto en los siguientes casos:
 
-- Proveedores de servicios: Podemos compartir tu información con terceros que nos brindan servicios, como el alojamiento de datos, análisis y soporte técnico.
-- Cumplimiento legal: Podemos divulgar tu información personal si estamos obligados por ley o si creemos de buena fe que dicha divulgación es necesaria para cumplir con una obligación legal, proteger nuestros derechos, resolver disputas o garantizar la seguridad de nuestros usuarios.
+    - Proveedores de servicios: Podemos compartir tu información con terceros que nos brindan servicios, como el alojamiento de datos, análisis y soporte técnico.
+    - Cumplimiento legal: Podemos divulgar tu información personal si estamos obligados por ley o si creemos de buena fe que dicha divulgación es necesaria para cumplir con una obligación legal, proteger nuestros derechos, resolver disputas o garantizar la seguridad de nuestros usuarios.
 
-## 6. Seguridad de Datos
+    ## 6. Seguridad de Datos
 
-Tomamos medidas razonables para proteger tu información personal contra pérdida, acceso no autorizado, divulgación, alteración o destrucción. Sin embargo, ten en cuenta que ninguna transmisión de datos en Internet o sistema de almacenamiento es completamente seguro.
+    Tomamos medidas razonables para proteger tu información personal contra pérdida, acceso no autorizado, divulgación, alteración o destrucción. Sin embargo, ten en cuenta que ninguna transmisión de datos en Internet o sistema de almacenamiento es completamente seguro.
 
-## 7. Derechos del Titular de los Datos
+    ## 7. Derechos del Titular de los Datos
 
-Tienes derechos sobre tus datos personales, que incluyen:
+    Tienes derechos sobre tus datos personales, que incluyen:
 
-- Acceder a tus datos personales.
-- Corregir tus datos personales.
+    - Acceder a tus datos personales.
+    - Corregir tus datos personales.
 
-## 8. Cambios en la Política
+    ## 8. Cambios en la Política
 
-Nos reservamos el derecho de actualizar o modificar esta Política en cualquier momento. Te notificaremos sobre los cambios a través de la Aplicación o por otros medios. El uso continuado de la Aplicación después de dichas modificaciones constituye tu aceptación de la Política revisada.
+    Nos reservamos el derecho de actualizar o modificar esta Política en cualquier momento. Te notificaremos sobre los cambios a través de la Aplicación o por otros medios. El uso continuado de la Aplicación después de dichas modificaciones constituye tu aceptación de la Política revisada.
 
-## 9. Contacto
+    ## 9. Contacto
 
-Si tienes preguntas, inquietudes o solicitudes relacionadas con esta Política, contáctanos a través de dramirezla@unal.edu.co.
+    Si tienes preguntas, inquietudes o solicitudes relacionadas con esta Política, contáctanos a través de dramirezla@unal.edu.co.
 
-Fecha de entrada en vigor: Octubre 28 del 2023
-"""
+    Fecha de entrada en vigor: Octubre 28 del 2023
+    """
 
     # Mostrar la política de tratamiento de datos personales en Markdown
     with st.expander("Ver Política de Tratamiento de Datos Personales"):
         st.markdown(politica_text)
-
 else:
-
     # Crear el título para el perfil del usuario
-    titulo = "Bienvenido a tu perfil " + df_cuenta_actual["Primer Nombre"] + "!"
-    st.title(titulo[0])
-    st.write("Estos son tus datos: ")
+    titulo = "Bienvenido a tu perfil " + str(cuenta_actual["Primer Nombre"][0]) + "!"
+    st.title(titulo)
 
+    st.write("Estos son tus datos: ")
     # Mostrar los datos del usuario
-    st.write(df_cuenta_actual)
+
 
     # Menú de selección para editar datos
     seleccion = st.selectbox(
         "Selecciona el campo de tus datos que deseas editar",
         ["Cambiar contraseña", "Cambiar Nombre", "Borrar pelicula favorita"],
     )
-    correo = df_cuenta_actual["Correo"][0]
+    correo = cuenta_actual["Correo"][0]
     boton_aplicar = st.button("Aplicar")
     boton_cerrar = st.button("Cerrar Sesion")
 
     if boton_cerrar:
         # Crear un DataFrame vacío y guardarlo en un archivo CSV para simular cerrar sesión
-        df_vacio = pd.DataFrame(
-            columns=["Correo", "Contraseña", "Primer Nombre", "Peliculas Favoritas"]
-        )
-        df_vacio.to_csv("cuenta_actual.csv", index=False)
+        localS = LocalStorage()
+        localS.deleteAll()
+        st.write("Se ha cerrado la sesion")
 
     if seleccion == "Cambiar contraseña":
         nueva_cont = st.text_input("Digite una nueva contraseña", type="password")
@@ -206,17 +217,42 @@ else:
                 )
             else:
                 # Actualizar la contraseña en los DataFrames y guardar los cambios
-                df_cuenta_actual["Contraseña"] = nueva_cont
-                if correo in df_cuentas["Correo"].values:
-                    df_cuentas.loc[
-                        df_cuentas["Correo"] == correo, "Contraseña"
-                    ] = nueva_cont
+
+                data = {
+                    "Correo": [cuenta_actual["Correo"][0]],
+                    "Contraseña": [nueva_cont],
+                    "Primer Nombre": [cuenta_actual["Primer Nombre"][0]],
+                    "Primer Apellido": [cuenta_actual["Primer Apellido"][0]],
+                    "Peliculas Favoritas": [cuenta_actual["Peliculas Favoritas"][0]]
+                }
+                st.write(data)
+                localS = LocalStorage()
+                localS.setItem("data", str(data))
                 st.write(
                     "<span style='color:red; font-weight:bold;'>La contraseña se ha cambiado con exito</span>",
                     unsafe_allow_html=True,
                 )
-                df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
+
+                actualizar_cuenta = pd.DataFrame(
+                    {
+                    "Correo": [cuenta_actual["Correo"][0]],
+                    "Contraseña": [nueva_cont],
+                    "Primer Nombre": [cuenta_actual["Primer Nombre"][0]],
+                    "Primer Apellido": [cuenta_actual["Primer Apellido"][0]],
+                    "Peliculas Favoritas": [cuenta_actual["Peliculas Favoritas"][0]]
+                }
+                )
+
+                df_cuentas = df_cuentas[df_cuentas['Correo'] != cuenta_actual["Correo"][0]]
+                df_cuentas = pd.concat([df_cuentas, actualizar_cuenta], ignore_index=True)
+
+                # Guardamos el DataFrame actualizado en un archivo CSV
                 df_cuentas.to_csv("cuentas.csv", index=False)
+                st.write(
+                    "<span style='color:red; font-weight:bold;'>La contraseña se ha cambiado con exito</span>",
+                    unsafe_allow_html=True,
+                )
+
 
     if seleccion == "Cambiar Nombre":
         # Solicitar y verificar nuevo nombre
@@ -229,17 +265,42 @@ else:
                     unsafe_allow_html=True,
                 )
             else:
-                df_cuenta_actual["Primer Nombre"] = nuevo_nombre
-                if correo in df_cuentas["Correo"].values:
-                    df_cuentas.loc[
-                        df_cuentas["Correo"] == correo, "Primer Nombre"
-                    ] = nuevo_nombre
+
+                data = {
+                    "Correo": [cuenta_actual["Correo"][0]],
+                    "Contraseña": [cuenta_actual["Contraseña"][0]],
+                    "Primer Nombre": [nuevo_nombre],
+                    "Primer Apellido": [cuenta_actual["Primer Apellido"][0]],
+                    "Peliculas Favoritas": [cuenta_actual["Peliculas Favoritas"][0]]
+                }
+
+                localS = LocalStorage()
+                localS.setItem("data", str(data))
+
+
+                actualizar_cuenta = pd.DataFrame(
+                {
+                    "Correo": [cuenta_actual["Correo"][0]],
+                    "Contraseña": [cuenta_actual["Contraseña"][0]],
+                    "Primer Nombre": [nuevo_nombre],
+                    "Primer Apellido": [cuenta_actual["Primer Apellido"][0]],
+                    "Peliculas Favoritas": [cuenta_actual["Peliculas Favoritas"][0]]
+                }
+                )
+
+                df_cuentas = df_cuentas[df_cuentas['Correo'] != cuenta_actual["Correo"][0]]
+                df_cuentas = pd.concat([df_cuentas, actualizar_cuenta], ignore_index=True)
+
+                # Guardamos el DataFrame actualizado en un archivo CSV
+                df_cuentas.to_csv("cuentas.csv", index=False)
+
                 st.write(
-                    "<span style='color:red; font-weight:bold;'>El Nombre se ha cambiado con exito</span>",
+                    "<span style='color:red; font-weight:bold;'>La contraseña se ha cambiado con exito</span>",
                     unsafe_allow_html=True,
                 )
-                df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
-                df_cuentas.to_csv("cuentas.csv", index=False)
+
+"""
+
     if seleccion == "Borrar pelicula favorita":
         listado_peliculas = (
             df_cuenta_actual["Peliculas Favoritas"].str.split(", ").explode().unique()
@@ -279,3 +340,10 @@ else:
             # Actualizar el csv
             df_cuenta_actual.to_csv("cuenta_actual.csv", index=False)
             df_cuentas.to_csv("cuentas.csv", index=False)
+
+
+
+"""
+
+
+
